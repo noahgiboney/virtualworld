@@ -218,7 +218,7 @@ public final class Entity {
         if (fullTarget.isPresent() && moveToFull(world, fullTarget.get(), scheduler)) {
             this.transformFull(world, scheduler, imageStore);
         } else {
-            scheduler.scheduleEvent( this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
+            scheduler.scheduleEvent( this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
         }
     }
 
@@ -226,7 +226,7 @@ public final class Entity {
         Optional<Entity> target = world.findNearest(this.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
 
         if (target.isEmpty() || !moveToNotFull(world, target.get(), scheduler) || !this.transformNotFull(world, scheduler, imageStore)) {
-            scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
+            scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
         }
     }
 
@@ -246,38 +246,38 @@ public final class Entity {
             }
         }
 
-        scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
+        scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
     }
 
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
         switch (this.kind) {
             case DUDE_FULL:
-                scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
-                scheduler.scheduleEvent(this, Action.createAnimationAction(this, 0), getAnimationPeriod());
+                scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
+                scheduler.scheduleEvent(this, Animation.createAnimationAction(this, 0), getAnimationPeriod());
                 break;
 
             case DUDE_NOT_FULL:
-                scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
-                scheduler.scheduleEvent(this, Action.createAnimationAction(this, 0), getAnimationPeriod());
+                scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
+                scheduler.scheduleEvent(this, Animation.createAnimationAction(this, 0), getAnimationPeriod());
                 break;
 
             case OBSTACLE:
-                scheduler.scheduleEvent(this, Action.createAnimationAction(this, 0), getAnimationPeriod());
+                scheduler.scheduleEvent(this, Animation.createAnimationAction(this, 0), getAnimationPeriod());
                 break;
 
             case FAIRY:
-                scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
-                scheduler.scheduleEvent(this, Action.createAnimationAction(this, 0), getAnimationPeriod());
+                scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
+                scheduler.scheduleEvent(this, Animation.createAnimationAction(this, 0), getAnimationPeriod());
                 break;
 
             case SAPLING:
-                scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
-                scheduler.scheduleEvent(this, Action.createAnimationAction(this, 0), getAnimationPeriod());
+                scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
+                scheduler.scheduleEvent(this, Animation.createAnimationAction(this, 0), getAnimationPeriod());
                 break;
 
             case TREE:
-                scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
-                scheduler.scheduleEvent(this, Action.createAnimationAction(this, 0), getAnimationPeriod());
+                scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
+                scheduler.scheduleEvent(this, Animation.createAnimationAction(this, 0), getAnimationPeriod());
                 break;
 
             default:
@@ -291,7 +291,7 @@ public final class Entity {
     public void executeSaplingActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         this.health++;
         if (!this.transformPlant( world, scheduler, imageStore)) {
-            scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
+            scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
         }
     }
 
@@ -299,7 +299,7 @@ public final class Entity {
 
         if (!this.transformPlant(world, scheduler, imageStore)) {
 
-            scheduler.scheduleEvent(this, Action.createActivityAction(this, world, imageStore), this.actionPeriod);
+            scheduler.scheduleEvent(this, Activity.createActivityAction(this, world, imageStore), this.actionPeriod);
         }
     }
     public PImage getCurrentImage() {

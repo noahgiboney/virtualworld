@@ -28,7 +28,7 @@ public final class EventScheduler {
             Event next = this.eventQueue.poll();
             removePendingEvent( next);
             this.currentTime = next.time();
-            next.action().executeAction( this);
+            next.action().executeAction(this);
         }
         this.currentTime = stopTime;
     }
