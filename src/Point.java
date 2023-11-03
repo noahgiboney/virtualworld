@@ -30,7 +30,7 @@ public final class Point {
         return min + rand.nextDouble() * (max - min);
     }
 
-    public  Optional<Entity> nearestEntity(List<Entity> entities, Point pos) {
+    public   Optional<Entity> nearestEntity(List<Entity> entities, Point pos) {
         if (entities.isEmpty()) {
             return Optional.empty();
         } else {
@@ -45,7 +45,6 @@ public final class Point {
                     nearestDistance = otherDistance;
                 }
             }
-
             return Optional.of(nearest);
         }
     }

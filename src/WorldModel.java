@@ -1,4 +1,5 @@
 import processing.core.PImage;
+import java.util.function.Predicate;
 
 import java.util.*;
 
@@ -7,7 +8,14 @@ import java.util.*;
  * Keeps track of the size of the world, the background image for each
  * location in the world, and the entities that populate the world.
  */
-public final class WorldModel {
+public final class  WorldModel {
+
+    public static final int PROPERTY_KEY = 0;
+    public static final int PROPERTY_ID = 1;
+    public static final int PROPERTY_COL = 2;
+    public static final int PROPERTY_ROW = 3;
+    public static final int ENTITY_NUM_PROPERTIES = 4;
+
     private int numRows;
     private int numCols;
     private Background[][] background;
@@ -73,18 +81,16 @@ public final class WorldModel {
         scheduler.unscheduleAllEvents(entity);
         this.removeEntityAt(entity.getPosition());
     }
-    public Optional<Entity> findNearest(Point pos, List<EntityKind> kinds) {
+    public Optional<Entity> findNearest(Point pos, String targetKey) {
         List<Entity> ofType = new LinkedList<>();
-        for (EntityKind kind : kinds) {
             for (Entity entity : this.entities) {
-                if (entity.getKind() == kind) {
+                if (entity.getKey().equals(targetKey)) {
                     ofType.add(entity);
                 }
             }
-        }
-
         return pos.nearestEntity(ofType, pos);
     }
+
 
     public boolean isOccupied(Point pos) {
         return this.withinBounds(pos) && this.getOccupancyCell(pos) != null;
@@ -154,23 +160,49 @@ public final class WorldModel {
     }
 
     public static void parseEntity(WorldModel world, String line, ImageStore imageStore) {
-        String[] properties = line.split(" ", Functions.ENTITY_NUM_PROPERTIES + 1);
-        if (properties.length >= Functions.ENTITY_NUM_PROPERTIES) {
-            String key = properties[Functions.PROPERTY_KEY];
-            String id = properties[Functions.PROPERTY_ID];
-            Point pt = new Point(Integer.parseInt(properties[Functions.PROPERTY_COL]), Integer.parseInt(properties[Functions.PROPERTY_ROW]));
+        String[] properties = line.split(" ", ENTITY_NUM_PROPERTIES + 1);
+        if (properties.length >= ENTITY_NUM_PROPERTIES) {
+            String key = properties[PROPERTY_KEY];
+            String id = properties[PROPERTY_ID];
+            Point pt = new Point(Integer.parseInt(properties[PROPERTY_COL]), Integer.parseInt(properties[PROPERTY_ROW]));
 
-            properties = properties.length == Functions.ENTITY_NUM_PROPERTIES ?
-                    new String[0] : properties[Functions.ENTITY_NUM_PROPERTIES].split(" ");
+            properties = properties.length == ENTITY_NUM_PROPERTIES ?
+                    new String[0] : properties[ENTITY_NUM_PROPERTIES].split(" ");
 
             switch (key) {
-                case Functions.OBSTACLE_KEY -> world.parseObstacle(properties, pt, id, imageStore);
-                case Functions.DUDE_KEY -> world.parseDude(properties, pt, id, imageStore);
-                case Functions.FAIRY_KEY -> world.parseFairy(properties, pt, id, imageStore);
-                case Functions.HOUSE_KEY -> world.parseHouse(properties, pt, id, imageStore);
-                case Functions.TREE_KEY -> world.parseTree(properties, pt, id, imageStore);
-                case Functions.SAPLING_KEY -> world.parseSapling(properties, pt, id, imageStore);
-                case Functions.STUMP_KEY -> world.parseStump(properties, pt, id, imageStore);
+                case Obstacle.OBSTACLE_KEY -> {
+                    Obstacle entity = new Obstacle(id, pt, imageStore.getImageList(Obstacle.OBSTACLE_KEY),
+                            Double.parseDouble(properties[Obstacle.OBSTACLE_ANIMATION_PERIOD]));
+                    world.tryAddEntity(entity);
+                }
+                case Dude.DUDE_KEY -> {
+                    DudeNotFull entity = new DudeNotFull(id, pt, imageStore.getImageList(Dude.DUDE_KEY), Double.parseDouble(properties[Dude.DUDE_ANIMATION_PERIOD]),
+                            Double.parseDouble(properties[Dude.DUDE_ACTION_PERIOD]), Integer.parseInt(properties[Dude.DUDE_LIMIT]));
+                    world.tryAddEntity(entity);
+                }
+                case Fairy.FAIRY_KEY -> {
+                    Fairy entity = new Fairy(id, pt, imageStore.getImageList(Fairy.FAIRY_KEY) , Double.parseDouble(properties[Fairy.FAIRY_ANIMATION_PERIOD]),
+                            Double.parseDouble(properties[Fairy.FAIRY_ACTION_PERIOD]));
+                    world.tryAddEntity(entity);
+                }
+                case House.HOUSE_KEY -> {
+                    House entity = new House(id, pt, imageStore.getImageList(House.HOUSE_KEY));
+                    world.tryAddEntity(entity);
+                }
+                case Tree.TREE_KEY -> {
+                    Tree entity = new Tree(id, pt, imageStore.getImageList(Tree.TREE_KEY),Double.parseDouble(properties[Tree.TREE_ANIMATION_PERIOD]),
+                            Double.parseDouble(properties[Tree.TREE_ACTION_PERIOD]), Integer.parseInt(properties[Tree.TREE_HEALTH]));
+                    world.tryAddEntity(entity);
+                }
+                case Sapling.SAPLING_KEY -> {
+                    int health = Integer.parseInt(properties[Sapling.SAPLING_HEALTH]);
+                    Sapling entity = new Sapling(id, pt, imageStore.getImageList(Sapling.SAPLING_KEY), Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, health, Sapling.SAPLING_HEALTH_LIMIT);
+                    world.tryAddEntity(entity);
+                }
+                case Stump.STUMP_KEY -> {
+                        Stump entity = new Stump(id, pt, imageStore.getImageList(Stump.STUMP_KEY));
+                        world.tryAddEntity(entity);
+                }
                 default -> throw new IllegalArgumentException("Entity key is unknown");
             }
         }else{
@@ -196,74 +228,6 @@ public final class WorldModel {
                 this.background[row][col] = new Background(cells[col],
                         imageStore.getImageList(cells[col]));
             }
-        }
-    }
-
-    public void parseSapling(String[] properties, Point pt, String id, ImageStore imageStore) {
-        if (properties.length == Functions.SAPLING_NUM_PROPERTIES) {
-            int health = Integer.parseInt(properties[Functions.SAPLING_HEALTH]);
-            Entity entity = Functions.createSapling(id, pt, imageStore.getImageList(Functions.SAPLING_KEY), health);
-            this.tryAddEntity(entity);
-        }else{
-            throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Functions.SAPLING_KEY, Functions.SAPLING_NUM_PROPERTIES));
-        }
-    }
-
-    public void parseDude(String[] properties, Point pt, String id, ImageStore imageStore) {
-        if (properties.length == Functions.DUDE_NUM_PROPERTIES) {
-            Entity entity = Functions.createDudeNotFull(id, pt, Double.parseDouble(properties[Functions.DUDE_ACTION_PERIOD]), Double.parseDouble(properties[Functions.DUDE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[Functions.DUDE_LIMIT]), imageStore.getImageList(Functions.DUDE_KEY));
-            this.tryAddEntity(entity);
-        }else{
-            throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Functions.DUDE_KEY, Functions.DUDE_NUM_PROPERTIES));
-        }
-    }
-
-    public void parseFairy(String[] properties, Point pt, String id, ImageStore imageStore) {
-        if (properties.length == Functions.FAIRY_NUM_PROPERTIES) {
-            Entity entity = Functions.createFairy(id, pt, Double.parseDouble(properties[Functions.FAIRY_ACTION_PERIOD]), Double.parseDouble(properties[Functions.FAIRY_ANIMATION_PERIOD]),
-                    imageStore.getImageList(Functions.FAIRY_KEY));
-            this.tryAddEntity(entity);
-        }else{
-            throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Functions.FAIRY_KEY, Functions.FAIRY_NUM_PROPERTIES));
-        }
-    }
-
-    public void parseTree(String[] properties, Point pt, String id, ImageStore imageStore) {
-        if (properties.length == Functions.TREE_NUM_PROPERTIES) {
-            Entity entity = Functions.createTree(id, pt, Double.parseDouble(properties[Functions.TREE_ACTION_PERIOD]), Double.parseDouble(properties[Functions.TREE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[Functions.TREE_HEALTH]), imageStore.getImageList(Functions.TREE_KEY));
-            this.tryAddEntity(entity);
-        }else{
-            throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Functions.TREE_KEY, Functions.TREE_NUM_PROPERTIES));
-        }
-    }
-
-    public void parseObstacle(String[] properties, Point pt, String id, ImageStore imageStore) {
-        if (properties.length == Functions.OBSTACLE_NUM_PROPERTIES) {
-            Entity entity = Functions.createObstacle(id, pt, Double.parseDouble(properties[Functions.OBSTACLE_ANIMATION_PERIOD]),
-                    imageStore.getImageList(Functions.OBSTACLE_KEY));
-            this.tryAddEntity(entity);
-        }else{
-            throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Functions.OBSTACLE_KEY, Functions.OBSTACLE_NUM_PROPERTIES));
-        }
-    }
-
-    public void parseHouse(String[] properties, Point pt, String id, ImageStore imageStore) {
-        if (properties.length == Functions.HOUSE_NUM_PROPERTIES) {
-            Entity entity = Functions.createHouse(id, pt, imageStore.getImageList(Functions.HOUSE_KEY));
-            this.tryAddEntity(entity);
-        }else{
-            throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Functions.HOUSE_KEY, Functions.HOUSE_NUM_PROPERTIES));
-        }
-    }
-
-    public void parseStump(String[] properties, Point pt, String id, ImageStore imageStore) {
-        if (properties.length == Functions.STUMP_NUM_PROPERTIES) {
-            Entity entity = Functions.createStump(id, pt, imageStore.getImageList(Functions.STUMP_KEY));
-            this.tryAddEntity(entity);
-        }else{
-            throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Functions.STUMP_KEY, Functions.STUMP_NUM_PROPERTIES));
         }
     }
 

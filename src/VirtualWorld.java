@@ -31,6 +31,8 @@ public final class VirtualWorld extends PApplet {
     private static final int KEYED_BLUE_IDX = 4;
     public static final int KEYED_IMAGE_MIN = 5;
 
+    public static final int COLOR_MASK = 0xffffff;
+
     public String loadFile = "world.sav";
     public long startTimeMillis = 0;
     public double timeScale = 1.0;
@@ -46,11 +48,11 @@ public final class VirtualWorld extends PApplet {
         */
     public void setAlpha(PImage img, int maskColor, int alpha) {
         int alphaValue = alpha << 24;
-        int nonAlpha = maskColor & Functions.COLOR_MASK;
+        int nonAlpha = maskColor & COLOR_MASK;
         img.format = ARGB;
         img.loadPixels();
         for (int i = 0; i < img.pixels.length; i++) {
-            if ((img.pixels[i] & Functions.COLOR_MASK) == nonAlpha) {
+            if ((img.pixels[i] & COLOR_MASK) == nonAlpha) {
                 img.pixels[i] = alphaValue | nonAlpha;
             }
         }
@@ -116,14 +118,14 @@ public final class VirtualWorld extends PApplet {
         Optional<Entity> entityOptional = world.getOccupant(pressed);
         if (entityOptional.isPresent()) {
             Entity entity = entityOptional.get();
-            System.out.println(entity.getId() + ": " + entity.getKind() + " : " + entity.getHealth());
+            //System.out.println(entity.getId() + ": " + " : " + entity.getHealth());
         }
 
     }
 
     public void scheduleActions(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         for (Entity entity : world.entities()) {
-            entity.scheduleActions(scheduler, world, imageStore);
+            entity.ScheduleActions(scheduler, world, imageStore);
         }
     }
 

@@ -10,7 +10,7 @@ public final class EventScheduler {
 
     public EventScheduler() {
         this.eventQueue = new PriorityQueue<>(new EventComparator());
-        this.pendingEvents = new HashMap<>();
+        this.pendingEvents = new HashMap<Entity, List<Event>>();
         this.currentTime = 0;
     }
     public double currentTime(){return this.currentTime;}
