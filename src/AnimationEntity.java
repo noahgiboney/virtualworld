@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class AnimationEntity extends Entity {
 
-    private double animationPeriod;
+    private final double animationPeriod;
 
     public AnimationEntity(String id, Point position, List<PImage> images, double animationPeriod) {
         super(id, position, images);

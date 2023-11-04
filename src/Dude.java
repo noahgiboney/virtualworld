@@ -8,7 +8,7 @@ public abstract class Dude extends ActivityEntity implements Transform, MoveTo{
     public static final int DUDE_ACTION_PERIOD = 0;
     public static final int DUDE_ANIMATION_PERIOD = 1;
     public static final int DUDE_LIMIT = 2;
-    private int resourceLimit;
+    private final int resourceLimit;
 
     public Dude(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod,int resourceLimit){
         super(id, position, images, animationPeriod, actionPeriod);

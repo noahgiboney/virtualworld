@@ -1,7 +1,7 @@
 public class ActionActivity extends Action{
 
-    private WorldModel world;
-    private ImageStore imageStore;
+    private final WorldModel world;
+    private final ImageStore imageStore;
 
     public ActionActivity(Entity entity, WorldModel world, ImageStore imageStore){
         super(entity);

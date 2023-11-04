@@ -1,6 +1,6 @@
 public class ActionAnimation extends Action{
 
-    private int repeatCount;
+    private final int repeatCount;
 
     public ActionAnimation(Entity entity, int repeatCount){
         super(entity);
