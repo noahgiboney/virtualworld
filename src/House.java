@@ -10,11 +10,6 @@ public class House extends Entity {
     }
 
     @Override
-    public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-
-    }
-
-    @Override
     public String getKey() {
         return HOUSE_KEY;
     }

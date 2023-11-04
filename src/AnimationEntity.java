@@ -11,6 +11,8 @@ public abstract class AnimationEntity extends Entity {
         this.animationPeriod = animationPeriod;
     }
 
+    public abstract void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore);
+
     public double getAnimationPeriod() {
         return this.animationPeriod;
     }

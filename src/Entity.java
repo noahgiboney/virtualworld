@@ -16,8 +16,6 @@ public abstract class Entity {
         this.imageIndex = 0;
     }
 
-    public abstract void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore);
-
     public abstract String getKey();
 
     public Point getPosition() {
