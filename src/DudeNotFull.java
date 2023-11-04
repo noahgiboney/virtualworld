@@ -28,7 +28,7 @@ public class  DudeNotFull extends Dude{
 
             target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
         } else if (targetTree.isPresent()) {
-            target = targetSapling;
+            target = targetTree;
         } else {
             target = targetSapling;
         }
@@ -41,12 +41,12 @@ public class  DudeNotFull extends Dude{
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
         HealthEntity temp = (HealthEntity) target;
-        if (getPosition().adjacent(target.getPosition())) {
+        if (getPosition().adjacent(temp.getPosition())) {
             this.resourceCount += 1;
             temp.setHealth(temp.getHealth() - 1);
             return true;
         } else {
-            Point nextPos = nextPosition(world, target.getPosition());
+            Point nextPos = nextPosition(world, temp.getPosition());
 
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);
