@@ -22,9 +22,7 @@ public final class  WorldModel {
     private Entity[][] occupancy;
     private Set<Entity> entities;
 
-    public WorldModel() {
-
-    }
+    public WorldModel() {}
     public Set<Entity> entities(){return this.entities;}
     public int numRows(){return this.numRows;}
     public int numCols(){return this.numCols;}
