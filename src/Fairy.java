@@ -43,7 +43,7 @@ public class Fairy extends ActionEntity implements MoveTo{
             Point nextPos = nextPosition(world, target.getPosition());
 
             if (!getPosition().equals(nextPos)) {
-                world.moveEntity(scheduler, target, nextPos);
+                world.moveEntity(scheduler, this, nextPos);
             }
             return false;
         }
