@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public abstract class Dude extends ActionEntity{
+public abstract class Dude extends ActionEntity implements Transform, MoveTo{
 
     public static final String DUDE_KEY = "dude";
     public static final int DUDE_ACTION_PERIOD = 0;

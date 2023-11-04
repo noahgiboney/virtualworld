@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Predicate;
 
-public class DudeNotFull extends Dude implements Transform, MoveTo{
+public class  DudeNotFull extends Dude{
 
     private int resourceCount;
     private int limit;

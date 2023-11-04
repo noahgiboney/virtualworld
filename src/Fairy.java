@@ -17,7 +17,7 @@ public class Fairy extends ActionEntity implements MoveTo{
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> fairyTarget = world.findNearest(getPosition(), Sapling.SAPLING_KEY);
+        Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.STUMP_KEY);
 
         if (fairyTarget.isPresent()) {
             Point tgtPos = fairyTarget.get().getPosition();

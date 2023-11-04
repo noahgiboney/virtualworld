@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * A simple class representing a location in 2D space.
@@ -30,7 +31,7 @@ public final class Point {
         return min + rand.nextDouble() * (max - min);
     }
 
-    public   Optional<Entity> nearestEntity(List<Entity> entities, Point pos) {
+    public Optional<Entity> nearestEntity(List<Entity> entities, Point pos) {
         if (entities.isEmpty()) {
             return Optional.empty();
         } else {

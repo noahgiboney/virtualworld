@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class DudeFull extends Dude implements Transform, MoveTo{
+public class DudeFull extends Dude{
 
     public DudeFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod){
         super(id, position, images, animationPeriod, actionPeriod);
