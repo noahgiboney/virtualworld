@@ -22,22 +22,22 @@ public class Fairy extends ActionEntity implements MoveTo{
         if (fairyTarget.isPresent()) {
             Point tgtPos = fairyTarget.get().getPosition();
 
-            if (moveTo( world, fairyTarget.get(), scheduler)) {
+            if (moveTo(world, fairyTarget.get(), scheduler)) {
+                Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + fairyTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
+                        Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0);
 
-                Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + fairyTarget.get().getId(), tgtPos,
-                        imageStore.getImageList(Sapling.SAPLING_KEY), Sapling.SAPLING_ACTION_ANIMATION_PERIOD , Sapling.SAPLING_ACTION_ANIMATION_PERIOD , 0, Sapling.SAPLING_HEALTH_LIMIT);
                 world.addEntity(sapling);
                 sapling.ScheduleActions(scheduler, world, imageStore);
             }
         }
-
+        // If no stump was found or the Fairy hasn't reached it yet, just reschedule next action
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
     }
 
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
         if (getPosition().adjacent(target.getPosition())) {
-            world.removeEntity( scheduler,target);
+            world.removeEntity(scheduler,target);
             return true;
         } else {
             Point nextPos = nextPosition(world, target.getPosition());
@@ -47,6 +47,22 @@ public class Fairy extends ActionEntity implements MoveTo{
             }
             return false;
         }
+    }
+
+    @Override
+    public Point nextPosition(WorldModel world, Point destPos) {
+        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
+
+        if (horiz == 0 || world.isOccupied(newPos)) {
+            int vert = Integer.signum(destPos.getY() - getPosition().getY());
+            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
+
+            if (vert == 0 || world.isOccupied(newPos)) {
+                newPos = getPosition();
+            }
+        }
+        return newPos;
     }
 
     @Override

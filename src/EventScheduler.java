@@ -33,7 +33,7 @@ public final class EventScheduler {
         this.currentTime = stopTime;
     }
 
-    public void unscheduleAllEvents( Entity entity) {
+    public void unscheduleAllEvents(Entity entity) {
         List<Event> pending = this.pendingEvents.remove(entity);
 
         if (pending != null) {

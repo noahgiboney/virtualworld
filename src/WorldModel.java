@@ -196,7 +196,7 @@ public final class  WorldModel {
                 }
                 case Sapling.SAPLING_KEY -> {
                     int health = Integer.parseInt(properties[Sapling.SAPLING_HEALTH]);
-                    Sapling entity = new Sapling(id, pt, imageStore.getImageList(Sapling.SAPLING_KEY), Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, health, Sapling.SAPLING_HEALTH_LIMIT);
+                    Sapling entity = new Sapling(id, pt, imageStore.getImageList(Sapling.SAPLING_KEY), Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, health);
                     world.tryAddEntity(entity);
                 }
                 case Stump.STUMP_KEY -> {

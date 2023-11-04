@@ -1,18 +1,17 @@
 import processing.core.PImage;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.function.Predicate;
 
-public class  DudeNotFull extends Dude{
-
+public class DudeNotFull extends Dude{
     private int resourceCount;
-    private int limit;
+    private int resourceLimit;
 
-    public DudeNotFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int limit){
+    public DudeNotFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int resourceLimit){
         super(id, position, images, animationPeriod, actionPeriod);
-        this.limit = limit;
+        this.resourceLimit = resourceLimit;
+        this.resourceCount = 0;
     }
 
     @Override
@@ -33,20 +32,24 @@ public class  DudeNotFull extends Dude{
             target = targetSapling;
         }
 
-        if (target.isEmpty() || !moveTo(world, target.get(), scheduler) || !transform(world, scheduler, imageStore)) {
+        if (target.isEmpty() || !(moveTo(world, target.get(), scheduler)) || !(transform(world, scheduler, imageStore))) {
             scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
         }
     }
 
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
-        HealthEntity temp = (HealthEntity) target;
-        if (getPosition().adjacent(temp.getPosition())) {
+        if (getPosition().adjacent(target.getPosition())) {
             this.resourceCount += 1;
-            temp.setHealth(temp.getHealth() - 1);
+            if(target.getKey().equals(Tree.TREE_KEY)){
+                ((Tree) target).setHealth(((Tree) target).getHealth() - 1);
+            }
+            else{
+                ((Sapling) target).setHealth(((Sapling) target).getHealth() - 1);
+            }
             return true;
         } else {
-            Point nextPos = nextPosition(world, temp.getPosition());
+            Point nextPos = nextPosition(world, target.getPosition());
 
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);
@@ -57,7 +60,8 @@ public class  DudeNotFull extends Dude{
 
     @Override
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        if (this.resourceCount >= this.limit) {
+        if (this.resourceCount >= this.resourceLimit) {
+
             DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getActionPeriod(),
                     getActionPeriod());
 
@@ -66,10 +70,28 @@ public class  DudeNotFull extends Dude{
 
             world.addEntity(dude);
             dude.ScheduleActions(scheduler, world, imageStore);
-
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Point nextPosition(WorldModel world, Point destPos) {
+        {
+            int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+            Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
+
+            if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
+                int vert = Integer.signum(destPos.getY() - getPosition().getY());
+                newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
+
+                if (vert == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
+                    newPos = getPosition();
+                }
+            }
+
+            return newPos;
+        }
     }
 
     @Override
@@ -77,4 +99,6 @@ public class  DudeNotFull extends Dude{
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
         scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
     }
+
+
 }

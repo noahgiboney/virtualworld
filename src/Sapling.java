@@ -10,9 +10,8 @@ public class Sapling extends HealthEntity implements Transform{
     public static final int SAPLING_HEALTH_LIMIT = 5;
     private int limit;
 
-    public Sapling (String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int health, int limit){
+    public Sapling (String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int health){
         super(id, position, images, animationPeriod, actionPeriod, health);
-        this.limit = limit;
     }
 
     @Override

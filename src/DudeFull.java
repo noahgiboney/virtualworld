@@ -1,6 +1,7 @@
 import processing.core.PImage;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -45,6 +46,24 @@ public class DudeFull extends Dude{
         world.addEntity(dude);
         dude.ScheduleActions(scheduler, world, imageStore);
         return true;
+    }
+
+    @Override
+    public Point nextPosition(WorldModel world, Point destPos) {{
+            int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+            Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
+
+            if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
+                int vert = Integer.signum(destPos.getY() - getPosition().getY());
+                newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
+
+                if (vert == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
+                    newPos = getPosition();
+                }
+            }
+
+            return newPos;
+        }
     }
 
     @Override

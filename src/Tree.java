@@ -23,7 +23,7 @@ public class Tree extends HealthEntity implements Transform{
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        if (!transform(world, scheduler, imageStore)) {
+        if (!this.transform(world, scheduler, imageStore)) {
             scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
         }
     }
