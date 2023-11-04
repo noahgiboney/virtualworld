@@ -1,5 +1,4 @@
 import processing.core.PImage;
-import java.util.function.Predicate;
 
 import java.util.*;
 
@@ -223,7 +222,7 @@ public final class  WorldModel {
         if(row < this.numRows){
             int rows = Math.min(cells.length, this.numCols);
             for (int col = 0; col < rows; col++){
-                this.background[row][col] = new Background(cells[col],
+                this.background[row][col] = new Background(
                         imageStore.getImageList(cells[col]));
             }
         }

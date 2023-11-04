@@ -6,12 +6,10 @@ import processing.core.PImage;
  * Represents a background for the 2D world.
  */
 public final class Background {
-    private String id;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
 
-    public Background(String id, List<PImage> images) {
-        this.id = id;
+    public Background(List<PImage> images) {
         this.images = images;
     }
     public PImage getCurrentImage() {

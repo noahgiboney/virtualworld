@@ -21,7 +21,7 @@ public final class Point {
                 (this.y == p2.y && Math.abs(this.x - p2.x) == 1);
     }
 
-    public  int getIntFromRange(int max, int min) {
+    public int getIntFromRange(int max, int min) {
         Random rand = new Random();
         return min + rand.nextInt(max-min);
     }

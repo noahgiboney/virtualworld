@@ -12,11 +12,6 @@ public final class ImageStore {
         defaultImages = new LinkedList<>();
         defaultImages.add(defaultImage);
     }
-    public Map<String, List<PImage>> images(){return this.images;}
-    public List<PImage> getImageList(String key) {
-        return this.images.getOrDefault(key, this.defaultImages);
-    }
-
     public void loadImages(Scanner in, PApplet screen, VirtualWorld virtualWorld) {
         int lineNumber = 0;
         while (in.hasNextLine()) {
@@ -27,5 +22,9 @@ public final class ImageStore {
             }
             lineNumber++;
         }
+    }
+    public Map<String, List<PImage>> images(){return this.images;}
+    public List<PImage> getImageList(String key) {
+        return this.images.getOrDefault(key, this.defaultImages);
     }
 }
