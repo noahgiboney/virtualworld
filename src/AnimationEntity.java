@@ -12,11 +12,9 @@ public abstract class AnimationEntity extends Entity {
     }
 
     public abstract void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore);
-
     public double getAnimationPeriod() {
         return this.animationPeriod;
     }
-
     public void nextImage() {
         setImageIndex(getImageIndex() + 1);
     }
