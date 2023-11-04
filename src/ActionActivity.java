@@ -1,5 +1,4 @@
 public class ActionActivity extends Action{
-
     private final WorldModel world;
     private final ImageStore imageStore;
 
