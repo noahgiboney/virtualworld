@@ -8,8 +8,6 @@ public class Tree extends HealthEntity implements Transform{
     public static final int TREE_ANIMATION_PERIOD = 0;
     public static final int TREE_ACTION_PERIOD = 1;
     public static final int TREE_HEALTH = 2;
-    public static final int TREE_NUM_PROPERTIES = 3;
-
     public static final double TREE_ANIMATION_MAX = 0.600;
     public static final double TREE_ANIMATION_MIN = 0.050;
     public static final double TREE_ACTION_MAX = 1.400;

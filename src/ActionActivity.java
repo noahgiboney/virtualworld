@@ -11,9 +11,7 @@ public class ActionActivity extends Action{
 
     @Override
     public void executeAction(EventScheduler scheduler) {
-
-        ActionEntity temp = (ActionEntity) getEntity();
-
+        ActivityEntity temp = (ActivityEntity) getEntity();
         temp.executeActivity(this.world, this.imageStore, scheduler);
     }
 }

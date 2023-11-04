@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public abstract class HealthEntity extends ActionEntity{
+public abstract class HealthEntity extends ActivityEntity {
     private int health;
 
     public HealthEntity (String id, Point position, List<PImage> images, double animationPeriod , double actionperiod, int health) {

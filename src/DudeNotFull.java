@@ -6,7 +6,6 @@ import java.util.Optional;
 public class DudeNotFull extends Dude{
     private int resourceCount;
 
-
     public DudeNotFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int resourceLimit){
         super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
         this.resourceCount = 0;
