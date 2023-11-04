@@ -1,16 +1,14 @@
 import processing.core.PImage;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class DudeNotFull extends Dude{
     private int resourceCount;
-    private int resourceLimit;
+
 
     public DudeNotFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int resourceLimit){
-        super(id, position, images, animationPeriod, actionPeriod);
-        this.resourceLimit = resourceLimit;
+        super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
         this.resourceCount = 0;
     }
 
@@ -60,10 +58,10 @@ public class DudeNotFull extends Dude{
 
     @Override
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        if (this.resourceCount >= this.resourceLimit) {
+        if (this.resourceCount >= getResourceLimit()) {
 
-            DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getActionPeriod(),
-                    getActionPeriod());
+            DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getAnimationPeriod(),
+                    getActionPeriod(), getResourceLimit());
 
             world.removeEntity(scheduler, this);
             scheduler.unscheduleAllEvents(this);
@@ -76,29 +74,8 @@ public class DudeNotFull extends Dude{
     }
 
     @Override
-    public Point nextPosition(WorldModel world, Point destPos) {
-        {
-            int horiz = Integer.signum(destPos.getX() - getPosition().getX());
-            Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
-
-            if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
-                int vert = Integer.signum(destPos.getY() - getPosition().getY());
-                newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
-
-                if (vert == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
-                    newPos = getPosition();
-                }
-            }
-
-            return newPos;
-        }
-    }
-
-    @Override
     public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
         scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
     }
-
-
 }
