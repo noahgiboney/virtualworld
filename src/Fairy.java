@@ -22,7 +22,7 @@ public class Fairy extends ActivityEntity implements MoveTo{
 
             if (moveTo(world, fairyTarget.get(), scheduler)) {
                 Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + fairyTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
-                        Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0);
+                        Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0, Sapling.SAPLING_HEALTH_LIMIT);
 
                 world.addEntity(sapling);
                 sapling.ScheduleActions(scheduler, world, imageStore);

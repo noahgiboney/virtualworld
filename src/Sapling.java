@@ -7,9 +7,11 @@ public class Sapling extends HealthEntity implements Transform{
     public static final int SAPLING_HEALTH = 0;
     public static final double SAPLING_ACTION_ANIMATION_PERIOD = 1.000; // have to be in sync since grows and gains health at same time
     public static final int SAPLING_HEALTH_LIMIT = 5;
+    private final int healthLimit;
 
-    public Sapling (String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int health){
+    public Sapling (String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int health, int healthLimit){
         super(id, position, images, animationPeriod, actionPeriod, health);
+        this.healthLimit = healthLimit;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class Sapling extends HealthEntity implements Transform{
             world.addEntity(stump);
 
             return true;
-        } else if (getHealth() >= SAPLING_HEALTH_LIMIT) {
+        } else if (getHealth() >= this.healthLimit) {
             Tree tree = new Tree(Tree.TREE_KEY + "_" + getId(), getPosition(),
                     imageStore.getImageList(Tree.TREE_KEY),
                     getPosition().getNumFromRange(Tree.TREE_ANIMATION_MAX, Tree.TREE_ANIMATION_MIN),
