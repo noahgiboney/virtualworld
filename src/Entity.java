@@ -3,9 +3,9 @@ import processing.core.PImage;
 import java.util.List;
 
 public abstract class Entity {
-    private String id;
+    private final String id;
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
 
 
@@ -17,6 +17,8 @@ public abstract class Entity {
     }
 
     public abstract void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore);
+
+    public abstract String getKey();
 
     public Point getPosition() {
         return position;
@@ -38,9 +40,6 @@ public abstract class Entity {
 
         return this.images.get(this.imageIndex % this.images.size());
     }
-
-    public abstract String getKey();
-
 
     public void setImageIndex(int imageIndex) {
         this.imageIndex = imageIndex;
