@@ -39,7 +39,7 @@ public final class  WorldModel {
         if (this.withinBounds(pos) && this.getOccupancyCell(pos) != null) {
             Entity entity = this.getOccupancyCell( pos);
 
-            /* This moves the entity just outside of the grid for
+            /* This moves the entity just outside the grid for
              * debugging purposes. */
             entity.setPosition(new Point(-1, -1));
             this.entities.remove(entity);
