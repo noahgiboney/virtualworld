@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Tree extends HealthEntity implements Transform{
+public class Tree extends ActivityEntity implements Transform{
 
     public static final String TREE_KEY = "tree";
     public static final int TREE_ANIMATION_PERIOD = 0;
@@ -15,8 +15,11 @@ public class Tree extends HealthEntity implements Transform{
     public static final int TREE_HEALTH_MAX = 3;
     public static final int TREE_HEALTH_MIN = 1;
 
+    private int health;
+
     public Tree(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int health){
-        super(id, position, images, animationPeriod, actionPeriod, health);
+        super(id, position, images, animationPeriod, actionPeriod);
+        this.health = health;
     }
 
     @Override
@@ -42,6 +45,14 @@ public class Tree extends HealthEntity implements Transform{
     public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
         scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     @Override

@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling extends HealthEntity implements Transform{
+public class Sapling extends Tree implements Transform{
     public static final String SAPLING_KEY = "sapling";
     public static final int SAPLING_HEALTH = 0;
     public static final double SAPLING_ACTION_ANIMATION_PERIOD = 1.000; // have to be in sync since grows and gains health at same time
@@ -17,21 +17,15 @@ public class Sapling extends HealthEntity implements Transform{
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         setHealth(getHealth() + 1);
-        if (!transform( world, scheduler, imageStore)) {
-            scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-        }
+        super.executeActivity( world, imageStore, scheduler);
     }
 
     @Override
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         if (getHealth() <= 0) {
-            Stump stump = new Stump(Stump.STUMP_KEY + "_" + getId(),
-                    getPosition(), imageStore.getImageList(Stump.STUMP_KEY));
-
-            world.removeEntity( scheduler,this);
-            world.addEntity(stump);
-            return true;
-        } else if (getHealth() >= this.healthLimit) {
+            super.transform(world, scheduler, imageStore);
+        } else
+        if (getHealth() >= this.healthLimit) {
             Tree tree = new Tree(Tree.TREE_KEY + "_" + getId(), getPosition(),
                     imageStore.getImageList(Tree.TREE_KEY),
                     getPosition().getNumFromRange(Tree.TREE_ANIMATION_MAX, Tree.TREE_ANIMATION_MIN),
@@ -45,13 +39,6 @@ public class Sapling extends HealthEntity implements Transform{
         }
         return false;
     }
-
-    @Override
-    public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-        scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
-    }
-
     @Override
     public String getKey() {
         return SAPLING_KEY;
