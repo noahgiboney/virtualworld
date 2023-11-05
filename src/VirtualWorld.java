@@ -11,27 +11,19 @@ public final class VirtualWorld extends PApplet {
     public static final int VIEW_HEIGHT = 480;
     public static final int TILE_WIDTH = 32;
     public static final int TILE_HEIGHT = 32;
-
-    public static final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
-    public static final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
-
-    public static final String IMAGE_LIST_FILE_NAME = "imagelist";
+    public final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
+    public final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
+    public final String IMAGE_LIST_FILE_NAME = "imagelist";
     public static final String DEFAULT_IMAGE_NAME = "background_default";
-    public static final int DEFAULT_IMAGE_COLOR = 0x808080;
-
-    public static final String FAST_FLAG = "-fast";
-    public static final String FASTER_FLAG = "-faster";
-    public static final String FASTEST_FLAG = "-fastest";
-    public static final double FAST_SCALE = 0.5;
-    public static final double FASTER_SCALE = 0.25;
-    public static final double FASTEST_SCALE = 0.10;
-
-    private static final int KEYED_RED_IDX = 2;
-    private static final int KEYED_GREEN_IDX = 3;
-    private static final int KEYED_BLUE_IDX = 4;
-    public static final int KEYED_IMAGE_MIN = 5;
-
-    public static final int COLOR_MASK = 0xffffff;
+    public final int DEFAULT_IMAGE_COLOR = 0x808080;
+    public final String FAST_FLAG = "-fast";
+    public final String FASTER_FLAG = "-faster";
+    public final String FASTEST_FLAG = "-fastest";
+    public final double FAST_SCALE = 0.5;
+    public final double FASTER_SCALE = 0.25;
+    public final double FASTEST_SCALE = 0.10;
+    public final int KEYED_IMAGE_MIN = 5;
+    public final int COLOR_MASK = 0xffffff;
 
     public String loadFile = "world.sav";
     public long startTimeMillis = 0;
@@ -42,7 +34,7 @@ public final class VirtualWorld extends PApplet {
     public WorldView view;
     public EventScheduler scheduler;
 
-    /*
+        /*
           Called with color for which alpha should be set and alpha value.
           setAlpha(img, color(255, 255, 255), 0));
         */
@@ -69,8 +61,11 @@ public final class VirtualWorld extends PApplet {
                 imgs.add(img);
 
                 if (attrs.length >= KEYED_IMAGE_MIN) {
+                    int KEYED_RED_IDX = 2;
                     int r = Integer.parseInt(attrs[KEYED_RED_IDX]);
+                    int KEYED_GREEN_IDX = 3;
                     int g = Integer.parseInt(attrs[KEYED_GREEN_IDX]);
+                    int KEYED_BLUE_IDX = 4;
                     int b = Integer.parseInt(attrs[KEYED_BLUE_IDX]);
                     setAlpha(img, screen.color(r, g, b), 0);
                 }

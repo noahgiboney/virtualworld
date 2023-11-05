@@ -29,9 +29,7 @@ public class Sapling extends HealthEntity implements Transform{
                     getPosition(), imageStore.getImageList(Stump.STUMP_KEY));
 
             world.removeEntity( scheduler,this);
-
             world.addEntity(stump);
-
             return true;
         } else if (getHealth() >= this.healthLimit) {
             Tree tree = new Tree(Tree.TREE_KEY + "_" + getId(), getPosition(),
@@ -41,10 +39,8 @@ public class Sapling extends HealthEntity implements Transform{
                     getPosition().getIntFromRange(Tree.TREE_HEALTH_MAX, Tree.TREE_HEALTH_MIN));
 
             world.removeEntity(scheduler, this);
-
             world.addEntity(tree);
             tree.ScheduleActions(scheduler, world, imageStore);
-
             return true;
         }
         return false;
