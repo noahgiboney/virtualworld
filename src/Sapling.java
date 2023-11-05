@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling extends Tree implements Transform{
+public class Sapling extends Tree{
     public static final String SAPLING_KEY = "sapling";
     public static final int SAPLING_HEALTH = 0;
     public static final double SAPLING_ACTION_ANIMATION_PERIOD = 1.000; // have to be in sync since grows and gains health at same time
