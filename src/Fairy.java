@@ -4,11 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Fairy extends ActivityEntity implements MoveTo{
-
-    public static final String FAIRY_KEY = "fairy";
-    public static final int FAIRY_ANIMATION_PERIOD = 0;
-    public static final int FAIRY_ACTION_PERIOD = 1;
-
     public Fairy(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod){
         super(id, position, images, animationPeriod, actionPeriod);
     }
@@ -71,6 +66,6 @@ public class Fairy extends ActivityEntity implements MoveTo{
 
     @Override
     public String getKey() {
-        return FAIRY_KEY;
+        return "fairy";
     }
 }
