@@ -8,10 +8,6 @@ import java.util.*;
  * location in the world, and the entities that populate the world.
  */
 public final class  WorldModel {
-    public static final String FAIRY_KEY = "fairy";
-    public static final int FAIRY_ANIMATION_PERIOD = 0;
-    public static final int FAIRY_ACTION_PERIOD = 1;
-
     public static final int PROPERTY_KEY = 0;
     public static final int PROPERTY_ID = 1;
     public static final int PROPERTY_COL = 2;
@@ -180,9 +176,9 @@ public final class  WorldModel {
                             Double.parseDouble(properties[Dude.DUDE_ACTION_PERIOD]), Integer.parseInt(properties[Dude.DUDE_LIMIT]));
                     world.tryAddEntity(entity);
                 }
-                case FAIRY_KEY -> {
-                    Fairy entity = new Fairy(id, pt, imageStore.getImageList(FAIRY_KEY) , Double.parseDouble(properties[FAIRY_ANIMATION_PERIOD]),
-                            Double.parseDouble(properties[FAIRY_ACTION_PERIOD]));
+                case Fairy.FAIRY_KEY -> {
+                    Fairy entity = new Fairy(id, pt, imageStore.getImageList(Fairy.FAIRY_KEY) , Double.parseDouble(properties[Fairy.FAIRY_ANIMATION_PERIOD]),
+                            Double.parseDouble(properties[Fairy.FAIRY_ACTION_PERIOD]));
                     world.tryAddEntity(entity);
                 }
                 case House.HOUSE_KEY -> {
