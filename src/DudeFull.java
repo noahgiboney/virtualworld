@@ -38,7 +38,6 @@ public class DudeFull extends Dude{
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         DudeNotFull dude = new DudeNotFull(getId(), getPosition(), getImages() , getAnimationPeriod(),
                 getActionPeriod(), getResourceLimit());
-        System.out.println("hello");
         world.removeEntity(scheduler, this);
         world.addEntity(dude);
         dude.ScheduleActions(scheduler, world, imageStore);
