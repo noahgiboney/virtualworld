@@ -6,22 +6,22 @@ import processing.core.*;
 
 public final class VirtualWorld extends PApplet {
     private static String[] ARGS;
-    private static final int VIEW_WIDTH = 640;
-    private static final int VIEW_HEIGHT = 480;
-    private static final int TILE_WIDTH = 32;
-    private static final int TILE_HEIGHT = 32;
-    private static final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
-    private static final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
-    private static final String DEFAULT_IMAGE_NAME = "background_default";
-    private static final int DEFAULT_IMAGE_COLOR = 0x808080;
-    private static final String FAST_FLAG = "-fast";
-    private static final String FASTER_FLAG = "-faster";
-    private static final String FASTEST_FLAG = "-fastest";
-    private static final double FAST_SCALE = 0.5;
-    private static final double FASTER_SCALE = 0.25;
-    private static double FASTEST_SCALE = 0.10;
-    private static final int KEYED_IMAGE_MIN = 5;
-    private static final int COLOR_MASK = 0xffffff;
+    private final int VIEW_WIDTH = 640;
+    private final int VIEW_HEIGHT = 480;
+    private final int TILE_WIDTH = 32;
+    private final int TILE_HEIGHT = 32;
+    private int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
+    private final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
+    private final String DEFAULT_IMAGE_NAME = "background_default";
+    private final int DEFAULT_IMAGE_COLOR = 0x808080;
+    private final String FAST_FLAG = "-fast";
+    private final String FASTER_FLAG = "-faster";
+    private final String FASTEST_FLAG = "-fastest";
+    private final double FAST_SCALE = 0.5;
+    private final double FASTER_SCALE = 0.25;
+    private final double FASTEST_SCALE = 0.10;
+    private final int KEYED_IMAGE_MIN = 5;
+    private final int COLOR_MASK = 0xffffff;
 
     private double timeScale = 1.0;
     private ImageStore imageStore;

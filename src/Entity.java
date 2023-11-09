@@ -8,7 +8,6 @@ public abstract class Entity {
     private final List<PImage> images;
     private int imageIndex;
 
-
     public Entity(String id, Point position, List<PImage> images) {
         this.id = id;
         this.position = position;
