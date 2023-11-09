@@ -7,12 +7,12 @@ import java.util.*;
  * Keeps track of the size of the world, the background image for each
  * location in the world, and the entities that populate the world.
  */
-public final class  WorldModel {
-    private static final int PROPERTY_KEY = 0;
-    private static final int PROPERTY_ID = 1;
-    private static final int PROPERTY_COL = 2;
-    private static final int PROPERTY_ROW = 3;
-    private static final int ENTITY_NUM_PROPERTIES = 4;
+public final class WorldModel {
+    private final int PROPERTY_KEY = 0;
+    private final int PROPERTY_ID = 1;
+    private final int PROPERTY_COL = 2;
+    private final int PROPERTY_ROW = 3;
+    private final int ENTITY_NUM_PROPERTIES = 4;
 
     private int numRows;
     private int numCols;
@@ -171,14 +171,14 @@ public final class  WorldModel {
     }
 
     public static void parseEntity(WorldModel world, String line, ImageStore imageStore) {
-        String[] properties = line.split(" ", ENTITY_NUM_PROPERTIES + 1);
-        if (properties.length >= ENTITY_NUM_PROPERTIES) {
-            String key = properties[PROPERTY_KEY];
-            String id = properties[PROPERTY_ID];
-            Point pt = new Point(Integer.parseInt(properties[PROPERTY_COL]), Integer.parseInt(properties[PROPERTY_ROW]));
+        String[] properties = line.split(" ", world.ENTITY_NUM_PROPERTIES + 1);
+        if (properties.length >= world.ENTITY_NUM_PROPERTIES) {
+            String key = properties[world.PROPERTY_KEY];
+            String id = properties[world.PROPERTY_ID];
+            Point pt = new Point(Integer.parseInt(properties[world.PROPERTY_COL]), Integer.parseInt(properties[world.PROPERTY_ROW]));
 
-            properties = properties.length == ENTITY_NUM_PROPERTIES ?
-                    new String[0] : properties[ENTITY_NUM_PROPERTIES].split(" ");
+            properties = properties.length == world.ENTITY_NUM_PROPERTIES ?
+                    new String[0] : properties[world.ENTITY_NUM_PROPERTIES].split(" ");
 
             switch (key) {
                 case Obstacle.OBSTACLE_KEY -> {
