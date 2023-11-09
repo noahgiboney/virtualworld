@@ -70,6 +70,6 @@ public class Fairy extends ActivityEntity implements MoveTo{
 
     @Override
     public String getKey() {
-        return "fairy";
+        return FAIRY_KEY;
     }
 }
