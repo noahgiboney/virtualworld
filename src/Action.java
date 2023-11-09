@@ -3,7 +3,7 @@
  */
 
 public abstract class Action{
-    private Entity entity;
+    private final Entity entity;
     public Action(Entity entity){
         this.entity = entity;
     }
