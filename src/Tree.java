@@ -15,8 +15,6 @@ public class Tree extends Plant{
     public static final int TREE_HEALTH_MAX = 3;
     public static final int TREE_HEALTH_MIN = 1;
 
-    private int health;
-
     public Tree(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int health){
         super(id, position, images, animationPeriod, actionPeriod, health);
     }

@@ -15,7 +15,9 @@ public abstract class AnimationEntity extends Entity {
     public double getAnimationPeriod() {
         return this.animationPeriod;
     }
+
     public void nextImage() {
         setImageIndex(getImageIndex() + 1);
     }
+
 }

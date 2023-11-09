@@ -44,9 +44,5 @@ public class DudeFull extends Dude{
         return true;
     }
 
-    @Override
-    public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-        scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
-    }
+
 }
