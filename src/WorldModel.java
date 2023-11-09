@@ -8,11 +8,11 @@ import java.util.*;
  * location in the world, and the entities that populate the world.
  */
 public final class  WorldModel {
-    public static final int PROPERTY_KEY = 0;
-    public static final int PROPERTY_ID = 1;
-    public static final int PROPERTY_COL = 2;
-    public static final int PROPERTY_ROW = 3;
-    public static final int ENTITY_NUM_PROPERTIES = 4;
+    private static final int PROPERTY_KEY = 0;
+    private static final int PROPERTY_ID = 1;
+    private static final int PROPERTY_COL = 2;
+    private static final int PROPERTY_ROW = 3;
+    private static final int ENTITY_NUM_PROPERTIES = 4;
 
     private int numRows;
     private int numCols;

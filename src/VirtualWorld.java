@@ -6,33 +6,30 @@ import processing.core.*;
 
 public final class VirtualWorld extends PApplet {
     private static String[] ARGS;
+    private static final int VIEW_WIDTH = 640;
+    private static final int VIEW_HEIGHT = 480;
+    private static final int TILE_WIDTH = 32;
+    private static final int TILE_HEIGHT = 32;
+    private static final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
+    private static final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
+    private static final String DEFAULT_IMAGE_NAME = "background_default";
+    private static final int DEFAULT_IMAGE_COLOR = 0x808080;
+    private static final String FAST_FLAG = "-fast";
+    private static final String FASTER_FLAG = "-faster";
+    private static final String FASTEST_FLAG = "-fastest";
+    private static final double FAST_SCALE = 0.5;
+    private static final double FASTER_SCALE = 0.25;
+    private static double FASTEST_SCALE = 0.10;
+    private static final int KEYED_IMAGE_MIN = 5;
+    private static final int COLOR_MASK = 0xffffff;
 
-    public static final int VIEW_WIDTH = 640;
-    public static final int VIEW_HEIGHT = 480;
-    public static final int TILE_WIDTH = 32;
-    public static final int TILE_HEIGHT = 32;
-    public final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
-    public final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
-    public final String IMAGE_LIST_FILE_NAME = "imagelist";
-    public static final String DEFAULT_IMAGE_NAME = "background_default";
-    public final int DEFAULT_IMAGE_COLOR = 0x808080;
-    public final String FAST_FLAG = "-fast";
-    public final String FASTER_FLAG = "-faster";
-    public final String FASTEST_FLAG = "-fastest";
-    public final double FAST_SCALE = 0.5;
-    public final double FASTER_SCALE = 0.25;
-    public final double FASTEST_SCALE = 0.10;
-    public final int KEYED_IMAGE_MIN = 5;
-    public final int COLOR_MASK = 0xffffff;
-
-    public String loadFile = "world.sav";
-    public long startTimeMillis = 0;
-    public double timeScale = 1.0;
-
-    public ImageStore imageStore;
-    public WorldModel world;
-    public WorldView view;
-    public EventScheduler scheduler;
+    private double timeScale = 1.0;
+    private ImageStore imageStore;
+    private WorldModel world;
+    private WorldView view;
+    private EventScheduler scheduler;
+    private String loadFile = "world.sav";
+    private long startTimeMillis = 0;
 
         /*
           Called with color for which alpha should be set and alpha value.
@@ -84,6 +81,7 @@ public final class VirtualWorld extends PApplet {
     */
     public void setup() {
         parseCommandLine(ARGS);
+        String IMAGE_LIST_FILE_NAME = "imagelist";
         loadImages(IMAGE_LIST_FILE_NAME);
         loadWorld(loadFile, this.imageStore);
 
@@ -115,15 +113,6 @@ public final class VirtualWorld extends PApplet {
             Entity entity = entityOptional.get();
             System.out.println(entity.getId() + ": " + entity.getKey());
         }
-
-    }
-
-    public void scheduleActions(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        for (Entity entity : world.entities()) {
-            if(entity instanceof AnimationEntity){
-                ((AnimationEntity) entity).ScheduleActions(scheduler, world, imageStore);
-            }
-        }
     }
 
     private Point mouseToPoint() {
@@ -145,16 +134,27 @@ public final class VirtualWorld extends PApplet {
         }
     }
 
-    public static Background createDefaultBackground(ImageStore imageStore) {
+    public Background createDefaultBackground(ImageStore imageStore) {
         return new Background(imageStore.getImageList(DEFAULT_IMAGE_NAME));
     }
 
-    public static PImage createImageColored(int width, int height, int color) {
+    public PImage createImageColored(int width, int height, int color) {
         PImage img = new PImage(width, height, RGB);
         img.loadPixels();
         Arrays.fill(img.pixels, color);
         img.updatePixels();
         return img;
+    }
+
+    public void loadWorld(String file, ImageStore imageStore) {
+        this.world = new WorldModel();
+        try {
+            Scanner in = new Scanner(new File(file));
+            world.load(in, imageStore, createDefaultBackground(imageStore));
+        } catch (FileNotFoundException e) {
+            Scanner in = new Scanner(file);
+            world.load(in, imageStore, createDefaultBackground(imageStore));
+        }
     }
 
     public void loadImages(String filename) {
@@ -167,14 +167,11 @@ public final class VirtualWorld extends PApplet {
         }
     }
 
-    public void loadWorld(String file, ImageStore imageStore) {
-        this.world = new WorldModel();
-        try {
-            Scanner in = new Scanner(new File(file));
-            world.load(in, imageStore, createDefaultBackground(imageStore));
-        } catch (FileNotFoundException e) {
-            Scanner in = new Scanner(file);
-            world.load(in, imageStore, createDefaultBackground(imageStore));
+    public void scheduleActions(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
+        for (Entity entity : world.entities()) {
+            if(entity instanceof AnimationEntity){
+                ((AnimationEntity) entity).ScheduleActions(scheduler, world, imageStore);
+            }
         }
     }
 
