@@ -1,7 +1,7 @@
 # Virtual World
 Project for CS203 
 
-This project was split into three parts
+This project was split into three parts throughout the quarter.
 
 ## Part One
 
