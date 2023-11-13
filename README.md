@@ -11,3 +11,5 @@ and interfaces. Representing the Entity's as parent abstract classes and their f
 reduced repeated code.
 
 ## Part Two
+
+## Part Two
