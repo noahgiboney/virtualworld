@@ -2,9 +2,7 @@ final class Point
 {
    public final int x;
    public final int y;
-
    public int g;
-
    public double f;
    public Point prior;
 
@@ -13,12 +11,16 @@ final class Point
       this.y = y;
    }
 
-   public int calcG(Point startPoint){
+   public int calcDistanceFromStart(Point startPoint){
       return Math.abs(this.x - startPoint.x) + Math.abs(this.y - startPoint.y);
    }
 
+   public int calcToAdjacent(Point current){
+      return Math.abs(this.x - current.x) + Math.abs(this.y - current.y);
+   }
+
    public double calcF(Point endPoint){
-      return Math.sqrt(Math.pow(this.x - endPoint.x, 2) + Math.pow(this.y - endPoint.y, 2)) + this.calcG(endPoint);
+      return Math.abs(this.x - endPoint.x) + Math.abs(this.y - endPoint.y) + this.g;
    }
 
 
