@@ -116,7 +116,7 @@ public class PathingMain extends PApplet {
    }
 
    public static void main(String args[])   {
-      PApplet.main("PathingMain");
+      PApplet.main("src/miniworld/PathingMain");
    }
 
    public void keyPressed()   {

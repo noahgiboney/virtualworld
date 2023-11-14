@@ -18,7 +18,7 @@ interface PathingStrategy {
                            Predicate<Point> canPassThrough,
                            BiPredicate<Point, Point> withinReach,
                            Function<Point, Stream<Point>> potentialNeighbors);
-/*
+
    static final Function<Point, Stream<Point>> CARDINAL_NEIGHBORS =
       point ->
          Stream.<Point>builder()
@@ -26,5 +26,5 @@ interface PathingStrategy {
             .add(new Point(point.x, point.y + 1))
             .add(new Point(point.x - 1, point.y))
             .add(new Point(point.x + 1, point.y))
-            .build();*/
+            .build();
 }

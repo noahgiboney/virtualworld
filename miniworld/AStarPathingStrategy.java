@@ -13,13 +13,23 @@ import java.util.HashMap;
 
 class AStarPathingStrategy implements PathingStrategy {
 
-
     public List<Point> computePath(Point start, Point end,
                                    Predicate<Point> canPassThrough,
                                    BiPredicate<Point, Point> withinReach,
-                                   Function<Point, Stream<Point>> potentialNeighbors)
-    {
+                                   Function<Point, Stream<Point>> potentialNeighbors) {
+
         List<Point> path = new LinkedList<>();
+//        List<Point> open = new LinkedList<>();
+//        List<Point> closed = new LinkedList<>();
+//
+//        Point current = start;
+//        open.add(current);
+//
+//        while(true){
+//
+//
+//        }
+
         /*define closed list
           define open list
           while (true){
@@ -28,7 +38,7 @@ class AStarPathingStrategy implements PathingStrategy {
             set the g, h, f values
             add them to open list if not in open list
             add the selected node to close list
-          return path*/  
+          return path*/
          return path;
     }
 }
