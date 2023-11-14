@@ -150,9 +150,9 @@ public class PathingMain extends PApplet {
                               (p1, p2) -> neighbors(p1,p2),
                                //PathingStrategy.CARDINAL_NEIGHBORS);
                               //OR 
-                              //CARDINAL_NEIGHBORS);
+                              CARDINAL_NEIGHBORS);
                               //DIAGONAL_NEIGHBORS);
-                              DIAGONAL_CARDINAL_NEIGHBORS);
+                             // DIAGONAL_CARDINAL_NEIGHBORS);
 
          if (points.size() == 0)         {
             System.out.println("No path found");
