@@ -1,5 +1,3 @@
-package miniworld;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,10 +38,10 @@ public class PathingMain extends PApplet {
       wPos = new Point(2, 2);
       goalPos = new Point(14, 13);
 
-      wyvern = loadImage("images/wyvern1.bmp");
-      background = loadImage("images/grass.bmp");
-      obstacle = loadImage("images/vein.bmp");
-      goal = loadImage("images/water.bmp");
+      wyvern = loadImage("miniworld/images/wyvern1.bmp");
+      background = loadImage("miniworld/images/grass.bmp");
+      obstacle = loadImage("miniworld/images/vein.bmp");
+      goal = loadImage("miniworld/images/water.bmp");
 
       grid = new GridValues[ROWS][COLS];
       initialize_grid(grid);
@@ -116,7 +114,7 @@ public class PathingMain extends PApplet {
    }
 
    public static void main(String args[])   {
-      PApplet.main("src/miniworld/PathingMain");
+      PApplet.main("PathingMain");
    }
 
    public void keyPressed()   {
@@ -150,7 +148,7 @@ public class PathingMain extends PApplet {
          points = strategy.computePath(pos, goalPos,
                               p ->  withinBounds(p, grid) && grid[p.y][p.x] != GridValues.OBSTACLE,
                               (p1, p2) -> neighbors(p1,p2),
-                              //PathingStrategy.CARDINAL_NEIGHBORS);
+                               //PathingStrategy.CARDINAL_NEIGHBORS);
                               //OR 
                               //CARDINAL_NEIGHBORS);
                               //DIAGONAL_NEIGHBORS);
