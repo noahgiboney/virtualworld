@@ -15,7 +15,7 @@ public class PathingMain extends PApplet {
    private PImage goal;
    private List<Point> path;
    //private PathingStrategy strategy = new SingleStepPathingStrategy();
-   private PathingStrategy strategy = new AStarPathingStrategy();
+   private final PathingStrategy strategy = new AStarPathingStrategy();
 
    private static final int TILE_SIZE = 32;
 
@@ -145,20 +145,19 @@ public class PathingMain extends PApplet {
       List<Point> points;
 
       while (!neighbors(pos, goal))      {
-         System.out.println("print");
          points = strategy.computePath(pos, goalPos,
-                              p ->  withinBounds(p, grid) && grid[p.y][p.x] != GridValues.OBSTACLE,
+                              p ->  withinBounds(p.getPosition(), grid) && grid[p.getPosition().y][p.getPosition().x] != GridValues.OBSTACLE,
                                PathingMain::neighbors,
-                               //PathingStrategy.CARDINAL_NEIGHBORS);
+                               PathingStrategy.CARDINAL_NEIGHBORS);
                               //OR 
-                              CARDINAL_NEIGHBORS);
+                              //CARDINAL_NEIGHBORS);
                               //DIAGONAL_NEIGHBORS);
                               //DIAGONAL_CARDINAL_NEIGHBORS);
 
          if (points.size() == 0){
-            System.out.println("No path found");
             return false;
          }
+
 
          // Check and add new points to the path
          for (Point nextStep : points) {
@@ -166,7 +165,6 @@ public class PathingMain extends PApplet {
                path.add(nextStep);
                pos = nextStep; // Update the current position
             } else {
-               System.out.println("Path contains a loop or redundant point");
                return false;
             }
          }

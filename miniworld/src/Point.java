@@ -2,27 +2,10 @@ final class Point
 {
    public final int x;
    public final int y;
-   public int g;
-   public double f;
-   public Point prior;
-
    public Point(int x, int y)   {
       this.x = x;
       this.y = y;
    }
-
-   public int calcDistanceFromStart(Point startPoint){
-      return Math.abs(this.x - startPoint.x) + Math.abs(this.y - startPoint.y);
-   }
-
-   public int calcToAdjacent(Point current){
-      return Math.abs(this.x - current.x) + Math.abs(this.y - current.y);
-   }
-
-   public double calcF(Point endPoint){
-      return Math.abs(this.x - endPoint.x) + Math.abs(this.y - endPoint.y) + this.g;
-   }
-
 
    public String toString()   {
       return "(" + x + "," + y + ")";
