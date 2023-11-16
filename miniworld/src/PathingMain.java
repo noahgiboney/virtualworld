@@ -148,11 +148,11 @@ public class PathingMain extends PApplet {
          points = strategy.computePath(pos, goalPos,
                               p ->  withinBounds(p.getPosition(), grid) && grid[p.getPosition().y][p.getPosition().x] != GridValues.OBSTACLE,
                                PathingMain::neighbors,
-                               PathingStrategy.CARDINAL_NEIGHBORS);
+                               //PathingStrategy.CARDINAL_NEIGHBORS);
                               //OR 
                               //CARDINAL_NEIGHBORS);
                               //DIAGONAL_NEIGHBORS);
-                              //DIAGONAL_CARDINAL_NEIGHBORS);
+                              DIAGONAL_CARDINAL_NEIGHBORS);
 
          if (points.size() == 0){
             return false;
@@ -203,16 +203,16 @@ public class PathingMain extends PApplet {
 
 
 
-   private static final Function<Point, Stream<Point>> DIAGONAL_CARDINAL_NEIGHBORS =
+   private static final Function<Node, Stream<Node>> DIAGONAL_CARDINAL_NEIGHBORS =
       point ->
-         Stream.<Point>builder()
-            .add(new Point(point.x - 1, point.y - 1))
-            .add(new Point(point.x + 1, point.y + 1))
-            .add(new Point(point.x - 1, point.y + 1))
-            .add(new Point(point.x + 1, point.y - 1))
-            .add(new Point(point.x, point.y - 1))
-            .add(new Point(point.x, point.y + 1))
-            .add(new Point(point.x - 1, point.y))
-            .add(new Point(point.x + 1, point.y))
+         Stream.<Node>builder()
+            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y - 1)))
+            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y + 1)))
+            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y + 1)))
+            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y - 1)))
+            .add(new Node(new Point(point.getPosition().x, point.getPosition().y - 1)))
+            .add(new Node(new Point(point.getPosition().x, point.getPosition().y + 1)))
+            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y)))
+            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y)))
             .build();
 }

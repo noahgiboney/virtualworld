@@ -18,7 +18,7 @@ public class Node {
     }
 
     public int calcToAdjacent(Point current){
-        return Math.abs(position.getY() - current.getX()) + Math.abs(position.getY() - current.getY());
+        return Math.abs(position.getX() - current.getX()) + Math.abs(position.getY() - current.getY());
     }
 
     public int calcF(Point endPoint){
