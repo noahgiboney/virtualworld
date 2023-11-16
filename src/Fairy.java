@@ -9,7 +9,7 @@ public class Fairy extends ActivityEntity implements MoveTo{
     public static final int FAIRY_ANIMATION_PERIOD = 0;
     public static final int FAIRY_ACTION_PERIOD = 1;
 
-   // private static final PathingStrategy FAIRY_PATHING = new AStarPathingStrategy();
+   //private static final PathingStrategy FAIRY_PATHING = new AStarPathingStrategy();
     private static final PathingStrategy FAIRY_PATHING = new SingleStepPathingStrategy();
 
     public Fairy(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod){
@@ -21,7 +21,7 @@ public class Fairy extends ActivityEntity implements MoveTo{
         Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.STUMP_KEY);
 
         if (fairyTarget.isPresent()) {
-            System.out.println("Target found: " + fairyTarget.isPresent());
+           System.out.println("Target found: " + fairyTarget.isPresent());
             Point tgtPos = fairyTarget.get().getPosition();
 
             if (moveTo(world, fairyTarget.get(), scheduler)) {
@@ -58,9 +58,22 @@ public class Fairy extends ActivityEntity implements MoveTo{
     @Override
     public Point nextPosition(WorldModel world, Point destPos) {
 
-        if (getPosition().adjacent(destPos)) {
-            return getPosition(); // Return the current position if the destination is reached
-        }
+//        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+//        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
+//
+//        if (horiz == 0 || world.isOccupied(newPos)) {
+//            int vert = Integer.signum(destPos.getY() - getPosition().getY());
+//            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
+//
+//            if (vert == 0 || world.isOccupied(newPos)) {
+//                newPos = getPosition();
+//            }
+//        }
+//        return newPos;
+
+//        if (getPosition().adjacent(destPos)) {
+//            return getPosition(); // Return the current position if the destination is reached
+//        }
 
         List<Point> path = FAIRY_PATHING.computePath(getPosition(),
                 destPos,
@@ -75,18 +88,7 @@ public class Fairy extends ActivityEntity implements MoveTo{
         }
     }
 
-    //                int horiz = Integer.signum(destPos.getX() - getPosition().getX());
-//        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
-//
-//        if (horiz == 0 || world.isOccupied(newPos)) {
-//            int vert = Integer.signum(destPos.getY() - getPosition().getY());
-//            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
-//
-//            if (vert == 0 || world.isOccupied(newPos)) {
-//                newPos = getPosition();
-//            }
-//        }
-//        return newPos;
+
 
     @Override
     public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {

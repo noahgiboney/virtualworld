@@ -21,9 +21,9 @@ interface PathingStrategy {
            point ->
                    Stream.<Point>builder()
                            .add(new Point(point.getX() + 1, point.getY()))
-                           .add(new Point(point.getX(), point.getY() + 1))
                            .add(new Point(point.getX() - 1, point.getY()))
                            .add(new Point(point.getX(), point.getY() - 1))
+                           .add(new Point(point.getX(), point.getY() + 1))
                            .build();
 
    static final Function<Point, Stream<Point>> DIAGONAL_CARDINAL_NEIGHBORS =

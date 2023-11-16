@@ -9,7 +9,7 @@ public abstract class Dude extends ActivityEntity implements Transform, MoveTo{
     public static final int DUDE_LIMIT = 2;
     private final int resourceLimit;
 
-    // private static final PathingStrategy DUDE_PATHING = new AStarPathingStrategy();
+   //  private static final PathingStrategy DUDE_PATHING = new AStarPathingStrategy();
     private static final PathingStrategy DUDE_PATHING = new SingleStepPathingStrategy();
 
     public Dude(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod,int resourceLimit){

@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 
 class AStarPathingStrategy implements PathingStrategy {
 
-
     public List<Point> computePath(Point start, Point end,
                                    Predicate<Point> canPassThrough,
                                    BiPredicate<Point, Point> withinReach,
@@ -15,7 +14,7 @@ class AStarPathingStrategy implements PathingStrategy {
 
         List<Point> path = new LinkedList<>(); //list to store path
 
-        System.out.println("Starting pathfinding from " + start + " to " + end);
+      //  System.out.println("Starting pathfinding from " + start + " to " + end);
 
         PriorityQueue<Point> open = new PriorityQueue<>(Comparator.comparing(Point::getfCost)); //nodes we can expand, sort based on lowest f cost
         HashSet<Point> closed = new HashSet<>(); //nodes that have been visited with the shortest path
@@ -32,12 +31,12 @@ class AStarPathingStrategy implements PathingStrategy {
             //if we reached the end then backtrack to add the path
             Point temp = current;
             if(withinReach.test(temp, end)){
-                System.out.println("Goal reached at " + temp);
+                //System.out.println("Goal reached at " + temp);
                 while(temp != null && !(temp.equals(start))) {
                     path.add(0, temp);
                     temp = temp.getPrior();
                 }
-                System.out.println("Path found: " + path);
+                //System.out.println("Path found: " + path);
                 return path;
             }
 
@@ -45,7 +44,7 @@ class AStarPathingStrategy implements PathingStrategy {
                     .filter(canPassThrough) //make sure they are able to move through (non obstacles)
                     .filter(neighbor -> !(closed.contains(neighbor))) //make sure they are not in closed list
                     .forEach(neighbor -> { //iterate through valid neighbors
-                        System.out.println("Checking neighbor: " + neighbor);
+                        //System.out.println("Checking neighbor: " + neighbor);
                         //hold current g value to compare
                         int currentG = current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current);
 
@@ -72,9 +71,9 @@ class AStarPathingStrategy implements PathingStrategy {
                     });
             //after all neighbors visited, add the that point to the closed list
             closed.add(current);
-            System.out.println("Added to closed list: " + current);
+            //System.out.println("Added to closed list: " + current);
         }
-        System.out.println("No path found.");
+        //System.out.println("No path found.");
         return path; //empty path
     }
 }
