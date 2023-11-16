@@ -3,7 +3,7 @@ public class Node {
     private int gCost;
     private int fCost;
 
-    Point position;
+    private Point position;
 
     public Node(Point position){
         this.position = position;
