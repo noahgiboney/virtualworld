@@ -146,18 +146,17 @@ public class PathingMain extends PApplet {
 
       while (!neighbors(pos, goal))      {
          points = strategy.computePath(pos, goalPos,
-                              p ->  withinBounds(p.getPosition(), grid) && grid[p.getPosition().y][p.getPosition().x] != GridValues.OBSTACLE,
+                              p ->  withinBounds(p, grid) && grid[p.y][p.x] != GridValues.OBSTACLE,
                                PathingMain::neighbors,
-                               //PathingStrategy.CARDINAL_NEIGHBORS);
+                               PathingStrategy.CARDINAL_NEIGHBORS);
                               //OR 
                               //CARDINAL_NEIGHBORS);
                               //DIAGONAL_NEIGHBORS);
-                              DIAGONAL_CARDINAL_NEIGHBORS);
+                             // DIAGONAL_CARDINAL_NEIGHBORS);
 
          if (points.size() == 0){
             return false;
          }
-
 
          // Check and add new points to the path
          for (Point nextStep : points) {
@@ -200,19 +199,20 @@ public class PathingMain extends PApplet {
             .add(new Point(point.x - 1, point.y + 1))
             .add(new Point(point.x + 1, point.y - 1))
             .build();
-
-
-
-   private static final Function<Node, Stream<Node>> DIAGONAL_CARDINAL_NEIGHBORS =
-      point ->
-         Stream.<Node>builder()
-            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y - 1)))
-            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y + 1)))
-            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y + 1)))
-            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y - 1)))
-            .add(new Node(new Point(point.getPosition().x, point.getPosition().y - 1)))
-            .add(new Node(new Point(point.getPosition().x, point.getPosition().y + 1)))
-            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y)))
-            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y)))
-            .build();
 }
+
+
+
+//   private static final Function<Node, Stream<Node>> DIAGONAL_CARDINAL_NEIGHBORS =
+//      point ->
+//         Stream.<Node>builder()
+//            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y - 1)))
+//            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y + 1)))
+//            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y + 1)))
+//            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y - 1)))
+//            .add(new Node(new Point(point.getPosition().x, point.getPosition().y - 1)))
+//            .add(new Node(new Point(point.getPosition().x, point.getPosition().y + 1)))
+//            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y)))
+//            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y)))
+//            .build();
+//

@@ -9,6 +9,8 @@ public abstract class Dude extends ActivityEntity implements Transform, MoveTo{
     public static final int DUDE_LIMIT = 2;
     private final int resourceLimit;
 
+    private static final PathingStrategy DUDE_PATHING = new SingleStepPathingStrategy();
+
     public Dude(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod,int resourceLimit){
         super(id, position, images, animationPeriod, actionPeriod);
         this.resourceLimit = resourceLimit;
@@ -16,20 +18,19 @@ public abstract class Dude extends ActivityEntity implements Transform, MoveTo{
 
     @Override
     public Point nextPosition(WorldModel world, Point destPos) {
-        {
-            int horiz = Integer.signum(destPos.getX() - getPosition().getX());
-            Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
 
-            if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
-                int vert = Integer.signum(destPos.getY() - getPosition().getY());
-                newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
+        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
 
-                if (vert == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
-                    newPos = getPosition();
-                }
+        if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
+            int vert = Integer.signum(destPos.getY() - getPosition().getY());
+            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
+
+            if (vert == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
+                newPos = getPosition();
             }
-            return newPos;
         }
+        return newPos;
     }
 
     @Override

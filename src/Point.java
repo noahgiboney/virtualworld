@@ -9,6 +9,9 @@ import java.util.Set;
 public final class Point {
     private final int x;
     private final int y;
+    private int gCost;
+    private int fCost;
+    private Point prior;
 
     public Point(int x, int y) {
         this.x = x;
@@ -16,6 +19,43 @@ public final class Point {
     }
     public int getX(){return this.x;}
     public int getY(){return this.y;}
+
+    public int calcDistanceFromStart(Point startPoint){
+        return Math.abs(this.x - startPoint.x) + Math.abs(this.y - startPoint.y);
+    }
+
+    public int calcToAdjacent(Point current){
+        return Math.abs(this.x - current.x) + Math.abs(this.y - current.y);
+    }
+
+    public int calcF(Point endPoint){
+        return Math.abs(this.x - endPoint.x) + Math.abs(this.y - endPoint.y) + getgCost();
+    }
+
+    public int getgCost() {
+        return gCost;
+    }
+
+    public int getfCost() {
+        return fCost;
+    }
+
+    public Point getPrior() {
+        return prior;
+    }
+
+    public void setgCost(int gCost) {
+        this.gCost = gCost;
+    }
+
+    public void setfCost(int fCost) {
+        this.fCost = fCost;
+    }
+
+    public void setPrior(Point prior) {
+        this.prior = prior;
+    }
+
     public boolean adjacent( Point p2) {
         return (this.x == p2.x && Math.abs(this.y - p2.y) == 1) ||
                 (this.y == p2.y && Math.abs(this.x - p2.x) == 1);

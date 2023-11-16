@@ -43,7 +43,7 @@ public class Fairy extends ActivityEntity implements MoveTo{
             world.removeEntity(scheduler,target);
             return true;
         } else {
-            Point nextPos = nextPosition(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
             System.out.println("Next position: " + nextPos);
 
             if (!getPosition().equals(nextPos)) {
@@ -57,10 +57,13 @@ public class Fairy extends ActivityEntity implements MoveTo{
     @Override
     public Point nextPosition(WorldModel world, Point destPos) {
 
+        if (getPosition().adjacent(destPos)) {
+            return getPosition(); // Return the current position if the destination is reached
+        }
 
         List<Point> path = Fairy_PATHING.computePath(getPosition(),
                 destPos,
-                point -> world.withinBounds(point.getPosition()) && !world.isOccupied(point.getPosition()),
+                point -> world.withinBounds(point) && !world.isOccupied(point),
                 Point::adjacent,
                 PathingStrategy.CARDINAL_NEIGHBORS);
 
@@ -70,7 +73,6 @@ public class Fairy extends ActivityEntity implements MoveTo{
             return path.get(0);
         }
     }
-
 
 //        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
 //        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
