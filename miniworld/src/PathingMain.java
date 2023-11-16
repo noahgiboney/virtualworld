@@ -168,7 +168,6 @@ public class PathingMain extends PApplet {
             }
          }
       }
-
       return true;
    }
 
@@ -199,20 +198,24 @@ public class PathingMain extends PApplet {
             .add(new Point(point.x - 1, point.y + 1))
             .add(new Point(point.x + 1, point.y - 1))
             .build();
+
+   private static final Function<Point, Stream<Point>> DIAGONAL_CARDINAL_NEIGHBORS =
+           point ->
+                   Stream.<Point>builder()
+                           .add(new Point(point.x - 1, point.y - 1))
+                           .add(new Point(point.x + 1, point.y + 1))
+                           .add(new Point(point.x - 1, point.y + 1))
+                           .add(new Point(point.x + 1, point.y - 1))
+                           .add(new Point(point.x, point.y - 1))
+                           .add(new Point(point.x, point.y + 1))
+                           .add(new Point(point.x - 1, point.y))
+                           .add(new Point(point.x + 1, point.y))
+                           .build();
 }
 
 
 
-//   private static final Function<Node, Stream<Node>> DIAGONAL_CARDINAL_NEIGHBORS =
-//      point ->
-//         Stream.<Node>builder()
-//            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y - 1)))
-//            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y + 1)))
-//            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y + 1)))
-//            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y - 1)))
-//            .add(new Node(new Point(point.getPosition().x, point.getPosition().y - 1)))
-//            .add(new Node(new Point(point.getPosition().x, point.getPosition().y + 1)))
-//            .add(new Node(new Point(point.getPosition().x - 1, point.getPosition().y)))
-//            .add(new Node(new Point(point.getPosition().x + 1, point.getPosition().y)))
-//            .build();
-//
+
+
+
+
