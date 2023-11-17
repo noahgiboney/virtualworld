@@ -13,12 +13,10 @@ public final class Point {
     private int fCost;
     private Point prior;
 
-    public Point(int x, int y) {
+    public Point(int x, int y)   {
         this.x = x;
         this.y = y;
     }
-    public int getX(){return this.x;}
-    public int getY(){return this.y;}
 
     public int calcDistanceFromStart(Point startPoint){
         return Math.abs(this.x - startPoint.x) + Math.abs(this.y - startPoint.y);
@@ -30,6 +28,14 @@ public final class Point {
 
     public int calcF(Point endPoint){
         return Math.abs(this.x - endPoint.x) + Math.abs(this.y - endPoint.y) + getgCost();
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public int getgCost() {
