@@ -10,7 +10,10 @@ public class ActionActivity extends Action{
 
     @Override
     public void executeAction(EventScheduler scheduler) {
-        ActivityEntity temp = (ActivityEntity) getEntity();
-        temp.executeActivity(this.world, this.imageStore, scheduler);
+
+        //check if entity is instance of activity entity before casting
+        if(getEntity() instanceof ActivityEntity temp){
+            temp.executeActivity(this.world, this.imageStore, scheduler);
+        }
     }
 }

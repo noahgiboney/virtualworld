@@ -9,11 +9,12 @@ public class ActionAnimation extends Action{
     @Override
     public void executeAction(EventScheduler scheduler) {
 
-        AnimationEntity temp = (AnimationEntity) getEntity();
-        temp.nextImage();
+        if(getEntity() instanceof AnimationEntity temp){
+            temp.nextImage();
 
-        if (this.repeatCount != 1) {
-            scheduler.scheduleEvent(getEntity(), new ActionAnimation(getEntity(),Math.max(this.repeatCount - 1, 0)), temp.getAnimationPeriod());
+            if (this.repeatCount != 1) {
+                scheduler.scheduleEvent(getEntity(), new ActionAnimation(getEntity(),Math.max(this.repeatCount - 1, 0)), temp.getAnimationPeriod());
+            }
         }
     }
 }
