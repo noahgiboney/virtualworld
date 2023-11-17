@@ -15,67 +15,74 @@ class AStarPathingStrategy implements PathingStrategy {
 
         List<Point> path = new LinkedList<>(); //list to store path
 
-        System.out.println("Starting pathfinding from " + start + " to " + end);
+        //holds open points, sort the queue by first the fCost, then gCost
+        PriorityQueue<Point> open = new PriorityQueue<>((p1, p2) -> {
+            int fCompare = Integer.compare(p1.getfCost(), p2.getfCost());
 
-        PriorityQueue<Point> open = new PriorityQueue<>(Comparator.comparing(Point::getfCost)); //nodes we can expand, sort based on lowest f cost
+            //if fCosts are the same, sort by gCost
+            if (fCompare == 0) {
+                return Integer.compare(p1.getgCost(), p2.getgCost());
+            }
+            else{
+                return fCompare;
+            }
+        });
+
         HashSet<Point> closed = new HashSet<>(); //nodes that have been visited with the shortest path
 
-        //initialize starting point as first node, set g & f cost as zero and add to queue
-        start.setgCost(0);
-        start.setfCost(0);
+        start.setgCost(0); //begin with g cost at zero
+        start.setfCost(start.calcF(end)); //initialize first fCost
         open.add(start);
 
         while(!(open.isEmpty())){
-            Point current = open.poll();// pop node with the shortest path (lowest f value)
-            //System.out.println("Processing node: " + current.getPosition());
+            Point current = open.poll();// pop point with the shortest path (lowest f value)
+            System.out.println("Processing node: " + current);
 
-            //if we reached the end then backtrack to add the path
+            //if we reached the end then backtrack through prior nodes to add the path
             Point temp = current;
             if(withinReach.test(temp, end)){
-                System.out.println("Goal reached at " + temp);
-                while(temp != null && !(temp.equals(start))) {
+                System.out.println("Goal reached at " + current);
+                while(temp != null) {
                     path.add(0, temp);
                     temp = temp.getPrior();
                 }
-                System.out.println("Path found: " + path);
                 return path;
             }
 
-            potentialNeighbors.apply(current) //get the stream of potential neighbors of current node
-                              .filter(canPassThrough) //make sure they are able to move through (non obstacles)
-                              .filter(neighbor -> !(closed.contains(neighbor))) //make sure they are not in closed list
-                              .forEach(neighbor -> { //iterate through valid neighbors
-                                  System.out.println("Checking neighbor: " + neighbor);
-                                  //hold current g value to compare
-                                  int currentG = current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current);
+            potentialNeighbors.apply(current) //get the stream of potential neighbors of current point
+                    .filter(canPassThrough) //make sure they are able to move through (non obstacles)
+                    .filter(neighbor -> !(closed.contains(neighbor))) //make sure they are not in closed list
+                    .forEach(neighbor -> { //iterate through valid neighbors
+                        System.out.println("Checking neighbor: " + neighbor);
 
-                                  if(open.contains(neighbor)) {//if neighbor is already in the open list, is the G cost better?
-                                      if( currentG < neighbor.getgCost()){
+                        int currentG = current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current); //hold current g value to compare
 
-                                          //if so, remove from list and replace its values with the lowest cost
-                                          open.remove(neighbor);
+                        if(open.contains(neighbor)) {//if neighbor is already in the open list, is the G cost better?
+                            if( currentG < neighbor.getgCost()){
 
-                                          neighbor.setgCost(current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current));
-                                          neighbor.setfCost(neighbor.calcF(end));
-                                          neighbor.setPrior(current);
-                                          open.add(neighbor); //add point to open list
-                                      }
-                                  }
-                                  else{
-                                      //if not, then continue on to set values
+                                //if so, remove from list and replace its values with the lowest cost
+                                open.remove(neighbor);
 
-                                      neighbor.setgCost(current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current));
-                                      neighbor.setfCost(neighbor.calcF(end));
-                                      neighbor.setPrior(current);
-                                      open.add(neighbor); //add point to open list
-                                  }
-                              });
-            //after all neighbors visited, add the that point to the closed list
+                                neighbor.setgCost(currentG);
+                                neighbor.setfCost(neighbor.calcF(end));
+                                neighbor.setPrior(current);
+                                open.add(neighbor);
+                            }
+                        }
+                        else{
+                            //if not, then continue on to set values
+                            System.out.println("Adding new neighbor to open list: " + neighbor);
+
+                            neighbor.setgCost(current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current));
+                            neighbor.setfCost(neighbor.calcF(end));
+                            neighbor.setPrior(current);
+                            open.add(neighbor);
+                        }
+                    });
+            //after all neighbors visited, add the that point to the closed list, so it is not visited anymore
             closed.add(current);
             System.out.println("Added to closed list: " + current);
         }
-        System.out.println("No path found.");
         return path; //empty path
     }
 }
-
