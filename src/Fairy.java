@@ -21,11 +21,11 @@ public class Fairy extends ActivityEntity implements MoveTo{
         Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.STUMP_KEY);
 
         if (fairyTarget.isPresent()) {
-           System.out.println("Target found: " + fairyTarget.isPresent());
+           //System.out.println("Target found: " + fairyTarget.isPresent());
             Point tgtPos = fairyTarget.get().getPosition();
 
             if (moveTo(world, fairyTarget.get(), scheduler)) {
-                System.out.println("Moved to target: " + moveTo(world, fairyTarget.get(), scheduler));
+                //System.out.println("Moved to target: " + moveTo(world, fairyTarget.get(), scheduler));
                 Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + fairyTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
                         Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0, Sapling.SAPLING_HEALTH_LIMIT);
 
@@ -58,42 +58,34 @@ public class Fairy extends ActivityEntity implements MoveTo{
     @Override
     public Point nextPosition(WorldModel world, Point destPos) {
 
-//        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
-//        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
-//
-//        if (horiz == 0 || world.isOccupied(newPos)) {
-//            int vert = Integer.signum(destPos.getY() - getPosition().getY());
-//            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
-//
-//            if (vert == 0 || world.isOccupied(newPos)) {
-//                newPos = getPosition();
-//            }
-//        }
-//        return newPos;
+        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
+
+        if (horiz == 0 || world.isOccupied(newPos)) {
+            int vert = Integer.signum(destPos.getY() - getPosition().getY());
+            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
+
+            if (vert == 0 || world.isOccupied(newPos)) {
+                newPos = getPosition();
+            }
+        }
+        return newPos;
 
 //        if (getPosition().adjacent(destPos)) {
 //            return getPosition(); // Return the current position if the destination is reached
 //        }
 
-        List<Point> path = FAIRY_PATHING.computePath(getPosition(),
-                destPos,
-                point -> world.withinBounds(point) && !world.isOccupied(point),
-                Point::adjacent,
-                PathingStrategy.CARDINAL_NEIGHBORS);
-
-        if (path.size() == 0)
-            return this.getPosition();
-        else {
-            return path.get(0);
-        }
-    }
-
-
-
-    @Override
-    public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-        scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
+//        List<Point> path = FAIRY_PATHING.computePath(getPosition(),
+//                destPos,
+//                point -> world.withinBounds(point) && !world.isOccupied(point),
+//                Point::adjacent,
+//                PathingStrategy.CARDINAL_NEIGHBORS);
+//
+//        if (path.size() == 0)
+//            return this.getPosition();
+//        else {
+//            return path.get(0);
+//        }
     }
 
     @Override

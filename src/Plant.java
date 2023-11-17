@@ -10,12 +10,6 @@ public abstract class Plant extends ActivityEntity implements Transform{
         this.health = health;
     }
 
-    @Override
-    public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-        scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
-    }
-
     public int getHealth() {
         return health;
     }

@@ -13,6 +13,7 @@ public class DudeNotFull extends Dude{
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
+        //System.out.println("executeActivity: Searching for nearest Tree and Sapling. Current position: " + getPosition());
         Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.TREE_KEY);
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.SAPLING_KEY);
 
@@ -61,7 +62,7 @@ public class DudeNotFull extends Dude{
 
             DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getAnimationPeriod(),
                     getActionPeriod(), getResourceLimit());
-
+            System.out.println("dude not full transformed");
             world.removeEntity(scheduler, this);
             scheduler.unscheduleAllEvents(this);
 

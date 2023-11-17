@@ -9,9 +9,8 @@ public abstract class Dude extends ActivityEntity implements Transform, MoveTo{
     public static final int DUDE_LIMIT = 2;
     private final int resourceLimit;
 
-   //  private static final PathingStrategy DUDE_PATHING = new AStarPathingStrategy();
+     //private static final PathingStrategy DUDE_PATHING = new AStarPathingStrategy();
     private static final PathingStrategy DUDE_PATHING = new SingleStepPathingStrategy();
-
     public Dude(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod,int resourceLimit){
         super(id, position, images, animationPeriod, actionPeriod);
         this.resourceLimit = resourceLimit;
@@ -49,14 +48,6 @@ public abstract class Dude extends ActivityEntity implements Transform, MoveTo{
 //        else {
 //            return path.get(0);
 //        }
-    }
-
-
-
-    @Override
-    public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-        scheduler.scheduleEvent(this, new ActionAnimation(this, 0), getAnimationPeriod());
     }
 
     public int getResourceLimit() {
