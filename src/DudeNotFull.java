@@ -49,6 +49,9 @@ public class DudeNotFull extends Dude{
         } else {
             Point nextPos = this.nextPosition(world, target.getPosition());
 
+//            System.out.println("DudeNotFull: Current Position: " + getPosition());
+//            System.out.println("DudeNotFUll: Next Position: " + nextPos);
+
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);
             }
@@ -72,6 +75,4 @@ public class DudeNotFull extends Dude{
         }
         return false;
     }
-
-
 }

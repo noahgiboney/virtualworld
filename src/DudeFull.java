@@ -43,6 +43,4 @@ public class DudeFull extends Dude{
         dude.ScheduleActions(scheduler, world, imageStore);
         return true;
     }
-
-
 }
