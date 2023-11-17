@@ -311,8 +311,7 @@
 -position: Point
 -images: List&lt;PImage&gt;
 -imageIndex: int</y:AttributeLabel>
-            <y:MethodLabel xml:space="preserve">+getKey() &lt;&lt;abstract&gt;&gt;
-+log(): String</y:MethodLabel>
+            <y:MethodLabel xml:space="preserve">+log(): String</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
