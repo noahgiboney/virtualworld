@@ -18,7 +18,7 @@ public class Fairy extends ActivityEntity implements MoveTo{
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.STUMP_KEY);
+        Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.class);
 
         if (fairyTarget.isPresent()) {
            //System.out.println("Target found: " + fairyTarget.isPresent());
@@ -86,10 +86,5 @@ public class Fairy extends ActivityEntity implements MoveTo{
 //        else {
 //            return path.get(0);
 //        }
-    }
-
-    @Override
-    public String getKey() {
-        return FAIRY_KEY;
     }
 }

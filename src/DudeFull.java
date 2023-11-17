@@ -10,7 +10,7 @@ public class DudeFull extends Dude{
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> fullTarget = world.findNearest(getPosition(), House.HOUSE_KEY);
+        Optional<Entity> fullTarget = world.findNearest(getPosition(), House.class);
 
         if (fullTarget.isPresent() && moveTo(world, fullTarget.get(), scheduler)) {
             this.transform(world, scheduler, imageStore);

@@ -15,8 +15,6 @@ public abstract class Entity {
         this.imageIndex = 0;
     }
 
-    public abstract String getKey();
-
     public Point getPosition() {
         return position;
     }

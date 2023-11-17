@@ -8,8 +8,4 @@ public class Stump extends Entity {
     public Stump(String id, Point position, List<PImage> images){
         super(id,position,images);
     }
-    @Override
-    public String getKey() {
-        return STUMP_KEY;
-    }
 }

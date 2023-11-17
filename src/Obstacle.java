@@ -14,10 +14,4 @@ public class Obstacle extends AnimationEntity {
     public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
         scheduler.scheduleEvent(this,new ActionAnimation(this, 0), getAnimationPeriod());
     }
-
-    @Override
-    public String getKey() {
-        return OBSTACLE_KEY;
-    }
-
 }

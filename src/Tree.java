@@ -37,9 +37,4 @@ public class Tree extends Plant{
         }
         return false;
     }
-
-    @Override
-    public String getKey() {
-        return TREE_KEY;
-    }
 }

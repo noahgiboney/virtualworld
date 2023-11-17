@@ -45,8 +45,4 @@ public class Sapling extends Plant{
         }
         return false;
     }
-    @Override
-    public String getKey() {
-        return SAPLING_KEY;
-    }
 }

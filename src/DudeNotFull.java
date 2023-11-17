@@ -14,8 +14,8 @@ public class DudeNotFull extends Dude{
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         //System.out.println("executeActivity: Searching for nearest Tree and Sapling. Current position: " + getPosition());
-        Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.TREE_KEY);
-        Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.SAPLING_KEY);
+        Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.class);
+        Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
 
         Optional<Entity> target;
 
@@ -39,7 +39,7 @@ public class DudeNotFull extends Dude{
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
         if (getPosition().adjacent(target.getPosition())) {
             this.resourceCount += 1;
-            if(target.getKey().equals(Tree.TREE_KEY)){
+            if(target instanceof Tree){
                 ((Tree) target).setHealth(((Tree) target).getHealth() - 1);
             }
             else{

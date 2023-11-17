@@ -54,9 +54,4 @@ public abstract class Dude extends ActivityEntity implements Transform, MoveTo{
         return resourceLimit;
     }
 
-    @Override
-    public String getKey(){
-        return DUDE_KEY;
-    }
-
 }

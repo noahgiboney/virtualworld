@@ -63,10 +63,10 @@ public final class WorldModel {
         return this.withinBounds(pos) && this.getOccupancyCell(pos) != null;
     }
 
-    public Optional<Entity> findNearest(Point pos, String targetKey) {
+    public <T extends Entity> Optional<Entity> findNearest(Point pos, Class<T> targetType) {
         List<Entity> ofType = new LinkedList<>();
         for (Entity entity : this.entities) {
-            if (entity.getKey().equals(targetKey)) {
+            if (targetType.isInstance(entity)) {
                 ofType.add(entity);
             }
         }

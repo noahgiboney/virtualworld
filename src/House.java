@@ -9,8 +9,5 @@ public class House extends Entity {
         super(id,position,images);
     }
 
-    @Override
-    public String getKey() {
-        return HOUSE_KEY;
-    }
+
 }
