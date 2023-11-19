@@ -42,7 +42,7 @@ class AStarPathingStrategy implements PathingStrategy {
             Point temp = current;
             if(withinReach.test(temp, end)){
                 System.out.println("Goal reached at " + current);
-                while(temp != null) {
+                while(temp != null && !(temp.equals(start))) {
                     path.add(0, temp);
                     temp = temp.getPrior();
                 }
@@ -71,7 +71,7 @@ class AStarPathingStrategy implements PathingStrategy {
                         }
                         else{
                             //if not, then continue on to set values
-                            System.out.println("Adding new neighbor to open list: " + neighbor);
+                           // System.out.println("Adding new neighbor to open list: " + neighbor);
 
                             neighbor.setgCost(current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current));
                             neighbor.setfCost(neighbor.calcF(end));

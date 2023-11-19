@@ -47,10 +47,7 @@ public class DudeNotFull extends Dude{
             }
             return true;
         } else {
-            Point nextPos = super.nextPosition(world, target.getPosition());
-
-//            System.out.println("DudeNotFull: Current Position: " + getPosition());
-//            System.out.println("DudeNotFUll: Next Position: " + nextPos);
+            Point nextPos = nextPosition(world, target.getPosition());
 
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);
@@ -65,7 +62,6 @@ public class DudeNotFull extends Dude{
 
             DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getAnimationPeriod(),
                     getActionPeriod(), getResourceLimit());
-            System.out.println("dude not full transformed");
             world.removeEntity(scheduler, this);
             scheduler.unscheduleAllEvents(this);
 

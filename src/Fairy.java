@@ -12,7 +12,7 @@ public class Fairy extends Movable {
     private static final PathingStrategy FAIRY_A_STAR = new AStarPathingStrategy();
 
     public Fairy(String id, Point position, List<PImage> images, double animationPeriod, double actionPeriod) {
-        super(id, position, images, animationPeriod, actionPeriod, FAIRY_SINGLE_STEP);
+        super(id, position, images, animationPeriod, actionPeriod, FAIRY_A_STAR);
     }
 
     @Override
@@ -40,20 +40,20 @@ public class Fairy extends Movable {
 
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
-        //System.out.println("Fairy: Current position: " + getPosition() + ", Target position: " + target.getPosition());
+        System.out.println("Fairy: Current position: " + getPosition() + ", Target position: " + target.getPosition());
         if (getPosition().adjacent(target.getPosition())) {
-            // System.out.println("Fairy: Adjacent to target, removing target.");
+            System.out.println("Fairy: Adjacent to target, removing target.");
             world.removeEntity(scheduler, target);
             return true;
         } else {
-            Point nextPos = super.nextPosition( world, target.getPosition());
-            // System.out.println("Fairy: Next position calculated as: " + nextPos);
+            Point nextPos = nextPosition( world, target.getPosition());
+            System.out.println("Fairy: Next position calculated as: " + nextPos);
 
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);
-                // System.out.println("Fairy: Moved to: " + nextPos + ", New position: " + getPosition());
+                System.out.println("Fairy: Moved to: " + nextPos + ", New position: " + getPosition());
             } else {
-                //System.out.println("Fairy: No movement, staying at current position.");
+                System.out.println("Fairy: No movement, staying at current position.");
             }
             return false;
         }
