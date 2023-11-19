@@ -19,14 +19,11 @@ public class Fairy extends Movable {
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.class);
 
-        //System.out.println("Fairy: Checking for target near " + getPosition());
-
         if (fairyTarget.isPresent()) {
-            // System.out.println("Fairy: Target found at " + fairyTarget.get().getPosition());
+
             Point tgtPos = fairyTarget.get().getPosition();
 
             if (moveTo(world, fairyTarget.get(), scheduler)) {
-                //System.out.println("Fairy: Moved to target and creating Sapling at " + tgtPos);
                 Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + fairyTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
                         Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0, Sapling.SAPLING_HEALTH_LIMIT);
 
@@ -34,7 +31,6 @@ public class Fairy extends Movable {
                 sapling.ScheduleActions(scheduler, world, imageStore);
             }
         }
-        // If no stump was found or the Fairy hasn't reached it yet, just reschedule next action
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
     }
 

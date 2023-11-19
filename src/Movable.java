@@ -15,21 +15,16 @@ public abstract class Movable extends ActivityEntity{
 
     public Point nextPosition(WorldModel world, Point destPos) {
 
-        //System.out.println("nextPosition: Calculating path from " + getPosition() + " to " + destPos);
         List<Point> path = strategy.computePath(getPosition(),
                 destPos,
                 point -> world.withinBounds(point) && !world.isOccupied(point),
                 Point::adjacent,
                 PathingStrategy.CARDINAL_NEIGHBORS);
 
-       // System.out.println("nextPosition: Path found is " + path);
-
         if (path.isEmpty()){
-           // System.out.println("nextPosition: No path found, staying at current position.");
             return this.getPosition();
         }
         else {
-            //System.out.println("nextPosition: Next position on path is " + path.get(0));
             return path.get(0);
         }
 
