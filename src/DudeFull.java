@@ -25,7 +25,7 @@ public class DudeFull extends Dude{
         if (getPosition().adjacent(target.getPosition())) {
             return true;
         } else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
+            Point nextPos = nextPosition(world, target.getPosition());
 
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);

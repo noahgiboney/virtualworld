@@ -3,17 +3,16 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class Fairy extends ActivityEntity implements MoveTo {
+public class Fairy extends Movable {
 
     public static final String FAIRY_KEY = "fairy";
     public static final int FAIRY_ANIMATION_PERIOD = 0;
     public static final int FAIRY_ACTION_PERIOD = 1;
-
-    //private static final PathingStrategy FAIRY_PATHING = new AStarPathingStrategy();
-     private static final PathingStrategy FAIRY_PATHING = new SingleStepPathingStrategy();
+    private static final PathingStrategy FAIRY_SINGLE_STEP = new SingleStepPathingStrategy();
+    private static final PathingStrategy FAIRY_A_STAR = new AStarPathingStrategy();
 
     public Fairy(String id, Point position, List<PImage> images, double animationPeriod, double actionPeriod) {
-        super(id, position, images, animationPeriod, actionPeriod);
+        super(id, position, images, animationPeriod, actionPeriod, FAIRY_SINGLE_STEP);
     }
 
     @Override
@@ -23,7 +22,7 @@ public class Fairy extends ActivityEntity implements MoveTo {
         //System.out.println("Fairy: Checking for target near " + getPosition());
 
         if (fairyTarget.isPresent()) {
-           // System.out.println("Fairy: Target found at " + fairyTarget.get().getPosition());
+            // System.out.println("Fairy: Target found at " + fairyTarget.get().getPosition());
             Point tgtPos = fairyTarget.get().getPosition();
 
             if (moveTo(world, fairyTarget.get(), scheduler)) {
@@ -43,52 +42,20 @@ public class Fairy extends ActivityEntity implements MoveTo {
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
         //System.out.println("Fairy: Current position: " + getPosition() + ", Target position: " + target.getPosition());
         if (getPosition().adjacent(target.getPosition())) {
-           // System.out.println("Fairy: Adjacent to target, removing target.");
+            // System.out.println("Fairy: Adjacent to target, removing target.");
             world.removeEntity(scheduler, target);
             return true;
         } else {
-            Point nextPos = nextPosition(world, target.getPosition());
-           // System.out.println("Fairy: Next position calculated as: " + nextPos);
+            Point nextPos = super.nextPosition( world, target.getPosition());
+            // System.out.println("Fairy: Next position calculated as: " + nextPos);
 
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);
-               // System.out.println("Fairy: Moved to: " + nextPos + ", New position: " + getPosition());
+                // System.out.println("Fairy: Moved to: " + nextPos + ", New position: " + getPosition());
             } else {
                 //System.out.println("Fairy: No movement, staying at current position.");
             }
             return false;
-        }
-    }
-
-    @Override
-    public Point nextPosition(WorldModel world, Point destPos) {
-
-//        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
-//        Point newPos = new Point(getPosition().getX() + horiz, getPosition().getY());
-//
-//        if (horiz == 0 || world.isOccupied(newPos)) {
-//            int vert = Integer.signum(destPos.getY() - getPosition().getY());
-//            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
-//
-//            if (vert == 0 || world.isOccupied(newPos)) {
-//                newPos = getPosition();
-//            }
-//        }
-//        return newPos;
-
-        List<Point> path = FAIRY_PATHING.computePath(getPosition(),
-                destPos,
-                point -> world.withinBounds(point) && !world.isOccupied(point),
-                Point::adjacent,
-                PathingStrategy.CARDINAL_NEIGHBORS);
-
-        if (path.size() == 0){
-//            System.out.println("Fairy: No path found, staying at current position.");
-            return this.getPosition();
-        }
-        else{
-            //System.out.println("Fairy: Path found, next position: " + path.get(0));
-            return path.get(0);
         }
     }
 }

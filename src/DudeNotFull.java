@@ -47,7 +47,7 @@ public class DudeNotFull extends Dude{
             }
             return true;
         } else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
+            Point nextPos = super.nextPosition(world, target.getPosition());
 
 //            System.out.println("DudeNotFull: Current Position: " + getPosition());
 //            System.out.println("DudeNotFUll: Next Position: " + nextPos);

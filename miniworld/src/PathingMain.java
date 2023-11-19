@@ -46,6 +46,7 @@ public class PathingMain extends PApplet {
 
       grid = new GridValues[ROWS][COLS];
       initialize_grid(grid);
+      surface.setLocation(100, 100); // Adjust the coordinates as needed
 
       noLoop();
    }
@@ -115,6 +116,7 @@ public class PathingMain extends PApplet {
    }
 
    public static void main(String args[])   {
+
       PApplet.main("PathingMain");
    }
 
