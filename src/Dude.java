@@ -14,7 +14,7 @@ public abstract class Dude extends Movable implements Transform{
      //private static final PathingStrategy DUDE_PATHING = new AStarPathingStrategy();
     private static final PathingStrategy DUDE_PATHING = new SingleStepPathingStrategy();
     public Dude(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod,int resourceLimit){
-        super(id, position, images, animationPeriod, actionPeriod, DUDE_A_STAR);
+        super(id, position, images, animationPeriod, actionPeriod, DUDE_SINGLE_STEP);
         this.resourceLimit = resourceLimit;
     }
 

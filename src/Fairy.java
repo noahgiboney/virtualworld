@@ -12,7 +12,7 @@ public class Fairy extends Movable {
     private static final PathingStrategy FAIRY_A_STAR = new AStarPathingStrategy();
 
     public Fairy(String id, Point position, List<PImage> images, double animationPeriod, double actionPeriod) {
-        super(id, position, images, animationPeriod, actionPeriod, FAIRY_A_STAR);
+        super(id, position, images, animationPeriod, actionPeriod, FAIRY_SINGLE_STEP);
     }
 
     @Override

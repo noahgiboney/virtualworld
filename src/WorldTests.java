@@ -188,7 +188,8 @@ public class WorldTests {
     }
 
     @Test
-    public void testDudeTransformNotFull() {
+    public void
+    testDudeTransformNotFull() {
         String sav = makeSave(3, 5, "dude mydude 0 1 0.500 100.0 1", "tree  2 1 0.250 0.001 1", "house  4 1");
         List<String> entities = VirtualWorld.headlessMain(new String[]{sav}, 5);
 
