@@ -79,6 +79,7 @@ class AStarPathingStrategy implements PathingStrategy {
                             open.add(neighbor);
                         }
                     });
+
             //after all neighbors visited, add the that point to the closed list, so it is not visited anymore
             closed.add(current);
             System.out.println("Added to closed list: " + current);
