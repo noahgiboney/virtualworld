@@ -36,12 +36,10 @@ class AStarPathingStrategy implements PathingStrategy {
 
         while(!(open.isEmpty())){
             Point current = open.poll();// pop point with the shortest path (lowest f value)
-            System.out.println("Processing node: " + current);
 
             //if we reached the end then backtrack through prior nodes to add the path
             Point temp = current;
             if(withinReach.test(temp, end)){
-                System.out.println("Goal reached at " + current);
                 while(temp != null && !(temp.equals(start))) {
                     path.add(0, temp);
                     temp = temp.getPrior();
@@ -53,7 +51,6 @@ class AStarPathingStrategy implements PathingStrategy {
                     .filter(canPassThrough) //make sure they are able to move through (non obstacles)
                     .filter(neighbor -> !(closed.contains(neighbor))) //make sure they are not in closed list
                     .forEach(neighbor -> { //iterate through valid neighbors
-                        System.out.println("Checking neighbor: " + neighbor);
 
                         int currentG = current.calcDistanceFromStart(start) + neighbor.calcToAdjacent(current); //hold current g value to compare
 
@@ -82,7 +79,6 @@ class AStarPathingStrategy implements PathingStrategy {
 
             //after all neighbors visited, add the that point to the closed list, so it is not visited anymore
             closed.add(current);
-            System.out.println("Added to closed list: " + current);
         }
         return path; //empty path
     }
