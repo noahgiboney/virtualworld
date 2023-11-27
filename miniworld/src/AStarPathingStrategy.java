@@ -42,7 +42,7 @@ class AStarPathingStrategy implements PathingStrategy {
             Point temp = current;
             if(withinReach.test(temp, end)){
                 System.out.println("Goal reached at " + current);
-                while(temp != null) {
+                while(temp != null && !(temp.equals(start))) {
                     path.add(0, temp);
                     temp = temp.getPrior();
                 }
