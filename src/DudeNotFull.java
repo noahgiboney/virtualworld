@@ -13,7 +13,6 @@ public class DudeNotFull extends Dude{
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        //System.out.println("executeActivity: Searching for nearest Tree and Sapling. Current position: " + getPosition());
         Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.class);
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
 
