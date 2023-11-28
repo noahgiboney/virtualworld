@@ -54,6 +54,14 @@ flowers flowers flowers grass grass grass grass grass grass grass grass grass gr
 flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers flowers
 flowers flowers flowers flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers flowers flowers
 Entities:
+    spider  12 3 0.123 0.123
+    spider  1 12 0.123 0.123
+    spider  10 10 0.123 0.123
+    spider  8 18 0.123 0.123
+    spider  15 26 0.123 0.123
+    spider  26 18 0.123 0.123
+    spider  37 22 0.123 0.123
+    spider  24 7 0.123 0.123
     tree  35 27 0.256 1.168 2
     tree  35 25 0.144 1.266 2
 obstacle  13 07 1.126
