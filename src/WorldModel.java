@@ -214,6 +214,11 @@ public final class WorldModel {
                         Stump entity = new Stump(id, pt, imageStore.getImageList(Stump.STUMP_KEY));
                         world.tryAddEntity(entity);
                 }
+                case Spider.SPIDER_KEY -> {
+                    Spider entity = new Spider(id, pt, imageStore.getImageList(Spider.SPIDER_KEY) , Double.parseDouble(properties[Spider.SPIDER_ANIMATION_PERIOD]),
+                            Double.parseDouble(properties[Spider.SPIDER_ACTION_PERIOD]));
+                    world.tryAddEntity(entity);
+                }
                 default -> throw new IllegalArgumentException("Entity key is unknown");
             }
         }else{
