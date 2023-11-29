@@ -108,27 +108,12 @@ public final class VirtualWorld extends PApplet {
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
-
-        Optional<Entity> spiderO = world.findNearest(pressed, Spider.class);
-
-        if (spiderO.isPresent()){
-            Entity spider = spiderO.get();
-            if(spider instanceof Spider temp){
-                if(!temp.isCanMove()) {
-                    temp.setCanMove(true);
-                }
-            }
+        if(!world.isOccupied(pressed)){
+            Spider entity = new Spider("spider", pressed, imageStore.getImageList(Spider.SPIDER_KEY) , 0.3,
+                    0.45, true);
+            world.tryAddEntity(entity);
+            entity.ScheduleActions(scheduler, world, imageStore);
         }
-//        Optional<Entity> entityOptional = world.getOccupant(pressed);
-//        if (entityOptional.isPresent()) {
-//            Entity entity = entityOptional.get();
-//
-//            if(entity instanceof Spider temp){
-//                temp.setCanMove(true);
-//            }
-//
-//            System.out.println(entity.getId() + ": " + entity.getClass());
-//        }
     }
 
     private Point mouseToPoint() {

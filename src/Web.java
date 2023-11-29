@@ -2,10 +2,15 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Web extends Entity {
+public class Web extends AnimationEntity {
     public static final String WEB_KEY = "web";
 
-    public Web(String id, Point position, List<PImage> images){
-        super(id,position,images);
+    public Web(String id, Point position, List<PImage> images, double animationPeriod){
+        super(id,position,images, animationPeriod);
+    }
+
+    @Override
+    public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
+        scheduler.scheduleEvent(this,new ActionAnimation(this, 0), getAnimationPeriod());
     }
 }

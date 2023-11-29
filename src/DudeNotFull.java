@@ -57,9 +57,6 @@ public class DudeNotFull extends Dude{
                 this.resourceCount += 1; // Increase resource count for Sapling
                 ((Sapling) target).setHealth(((Sapling) target).getHealth() - 1);
             } else if (target instanceof Spider) {
-                // Remove the Spider from the world
-                world.removeEntity(scheduler,target);
-                scheduler.unscheduleAllEvents(target);
                 return true;
             }
             return true;
