@@ -216,6 +216,10 @@ public final class WorldModel {
                             Double.parseDouble(properties[Spider.SPIDER_ACTION_PERIOD]), false);
                     world.tryAddEntity(entity);
                 }
+                case Web.WEB_KEY -> {
+                    Web entity = new Web(id, pt, imageStore.getImageList(Web.WEB_KEY), Double.parseDouble(properties[Web.WEB_ANIMATION_PERIOD]));
+                    world.tryAddEntity(entity);
+                }
                 default -> throw new IllegalArgumentException("Entity key is unknown");
             }
         }else{
