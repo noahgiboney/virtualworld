@@ -1,5 +1,6 @@
 import processing.core.PImage;
 
+import javax.xml.stream.events.EndElement;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,20 +16,31 @@ public class DudeNotFull extends Dude{
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.class);
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
+        Optional<Entity> targetSpider = world.findNearest(getPosition(), Spider.class);
+        Optional<Entity> target = Optional.empty(); // Initialize with empty Optional
 
-        Optional<Entity> target;
-
-        if (targetTree.isPresent() && targetSapling.isPresent()) {
-            int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
-            int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
-
-            target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
-        } else if (targetTree.isPresent()) {
-            target = targetTree;
-        } else {
-            target = targetSapling;
+        // Check for Spider and its ability to move
+        if (targetSpider.isPresent()) {
+            Entity spider = targetSpider.get();
+            if (spider instanceof Spider temp && temp.isCanMove()) {
+                target = targetSpider;
+            }
         }
 
+        // Check for Tree and Sapling if Spider is not a valid target
+        if (target.isEmpty()) {
+            if (targetTree.isPresent() && targetSapling.isPresent()) {
+                int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
+                int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
+                target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
+            } else if (targetTree.isPresent()) {
+                target = targetTree;
+            } else if (targetSapling.isPresent()) {
+                target = targetSapling;
+            }
+        }
+
+        // Execute movement or transformation if a target is present
         if (target.isEmpty() || !(moveTo(world, target.get(), scheduler)) || !(transform(world, scheduler, imageStore))) {
             scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
         }
@@ -37,12 +49,18 @@ public class DudeNotFull extends Dude{
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
         if (getPosition().adjacent(target.getPosition())) {
-            this.resourceCount += 1;
-            if(target instanceof Tree){
+
+            if (target instanceof Tree) {
+                this.resourceCount += 1; // Increase resource count for Tree
                 ((Tree) target).setHealth(((Tree) target).getHealth() - 1);
-            }
-            else{
+            } else if (target instanceof Sapling) {
+                this.resourceCount += 1; // Increase resource count for Sapling
                 ((Sapling) target).setHealth(((Sapling) target).getHealth() - 1);
+            } else if (target instanceof Spider) {
+                // Remove the Spider from the world
+                world.removeEntity(scheduler,target);
+                scheduler.unscheduleAllEvents(target);
+                return true;
             }
             return true;
         } else {

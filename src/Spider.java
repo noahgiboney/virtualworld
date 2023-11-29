@@ -10,53 +10,52 @@ public class Spider extends Movable {
     public static final int SPIDER_ACTION_PERIOD = 1;
     private static final PathingStrategy SPIDER_SINGLE_STEP = new SingleStepPathingStrategy();
     private static final PathingStrategy SPIDER_A_STAR = new AStarPathingStrategy();
+    private boolean canMove = false;
 
     public Spider(String id, Point position, List<PImage> images, double animationPeriod, double actionPeriod) {
         super(id, position, images, animationPeriod, actionPeriod, SPIDER_A_STAR);
-    }
-
-    @Override
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-
+        this.canMove = false;
     }
 
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
-        return false;
+        if(!canMove){
+            return false;
+        }
+
+        if (getPosition().adjacent(target.getPosition())) {
+            return true;
+        } else {
+            Point nextPos = nextPosition( world, target.getPosition());
+
+            if (!getPosition().equals(nextPos)) {
+                world.moveEntity(scheduler, this, nextPos);
+            }
+            return false;
+        }
     }
 
-//    @Override
-//    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-//        Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.class);
-//
-//        if (fairyTarget.isPresent()) {
-//
-//            Point tgtPos = fairyTarget.get().getPosition();
-//
-//            if (moveTo(world, fairyTarget.get(), scheduler)) {
-//                Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + fairyTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
-//                        Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0, Sapling.SAPLING_HEALTH_LIMIT);
-//
-//                world.addEntity(sapling);
-//                sapling.ScheduleActions(scheduler, world, imageStore);
-//            }
-//        }
-//        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-//    }
-//
-//    @Override
-//    public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
-//        if (getPosition().adjacent(target.getPosition())) {
-//            world.removeEntity(scheduler, target);
-//            return true;
-//        } else {
-//            Point nextPos = nextPosition( world, target.getPosition());
-//
-//            if (!getPosition().equals(nextPos)) {
-//                world.moveEntity(scheduler, this, nextPos);
-//            } else {
-//            }
-//            return false;
-//        }
-//    }
+    @Override
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
+        Optional<Entity> dudeTarget = world.findNearest(getPosition(), Dude.class);
+
+        if (dudeTarget.isPresent()) {
+            Point tgtPos = dudeTarget.get().getPosition();
+
+            if (moveTo(world, dudeTarget.get(), scheduler)) {
+//                world.removeEntity(scheduler, this);
+//                Web web = new Web(Web.WEB_KEY, this.getPosition(), imageStore.getImageList(Web.WEB_KEY));
+//                world.addEntity(web);
+            }
+        }
+        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
+    }
+
+    public boolean isCanMove() {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
 }
