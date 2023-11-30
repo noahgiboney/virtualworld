@@ -54,10 +54,14 @@ flowers flowers flowers grass grass grass grass grass grass grass grass grass gr
 flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers flowers
 flowers flowers flowers flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers flowers flowers
 Entities:
+big_spider  16 01 0.2 0.45
     web  14 00 1.091
     web  19 00 0.99
-    web  15 4 1.105
+    web  15 04 1.105
     web  18 03 1.091
+    web  20 03 0.99
+    web  15 02 1.105
+    web  13 01 1.091
         tree  19 03 0.144 1.266 2
         tree  15 00 0.501 1.289 2
         tree  15 01 0.513 1.330 2
