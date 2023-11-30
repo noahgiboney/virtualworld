@@ -14,10 +14,16 @@ public class DudeNotFull extends Dude{
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.class);
+
+        //all three possible targets for dude
+        Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.class)
+                .stream()
+                .filter(tree -> tree instanceof Tree && !((Tree)tree).isWebbed())
+                .findFirst();
+
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
         Optional<Entity> targetSpider = world.findNearest(getPosition(), Spider.class);
-        Optional<Entity> target = Optional.empty(); // Initialize with empty Optional
+        Optional<Entity> target = Optional.empty();
 
         // Check for Spider and its ability to move
         if (targetSpider.isPresent()) {
@@ -48,9 +54,12 @@ public class DudeNotFull extends Dude{
 
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
+
         if (getPosition().adjacent(target.getPosition())) {
 
-            if (target instanceof Tree) {
+            Optional<Entity> webTarget = world.findNearest(getPosition(), Web.class);
+
+            if (target instanceof Tree temp && !temp.isWebbed()) {
                 this.resourceCount += 1; // Increase resource count for Tree
                 ((Tree) target).setHealth(((Tree) target).getHealth() - 1);
             } else if (target instanceof Sapling) {
