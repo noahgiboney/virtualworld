@@ -54,7 +54,6 @@ flowers flowers flowers grass grass grass grass grass grass grass grass grass gr
 flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers flowers
 flowers flowers flowers flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers flowers flowers
 Entities:
-big_spider  16 01 0.2 0.45
     web  14 00 1.091
     web  19 00 0.99
     web  15 04 1.105
@@ -207,7 +206,6 @@ obstacle  22 17 1.052
 obstacle  01 08 1.041
     dude  04 03 0.848 0.180 03
 obstacle  19 11 1.071
-    tree  17 03 0.061 1.050 1
 obstacle  01 09 1.112
    fairy  13 10 0.123 0.123
 obstacle  38 19 1.098
@@ -219,7 +217,6 @@ obstacle  07 07 1.183
     tree  25 05 0.330 1.328 1
 obstacle  34 20 1.014
 obstacle  03 09 1.199
-    tree  17 04 0.111 1.206 1
 obstacle  20 14 1.140
     tree  24 04 0.182 1.027 2
     tree  36 27 0.150 1.230 2

@@ -47,15 +47,18 @@ public class Spider extends Movable {
                 if(webTarget.isPresent()){
                     Entity tree = webTarget.get();
                     if(tree instanceof Tree temp){
-                        temp.setWebbed(true);
-                        Web web = new Web(Web.WEB_KEY,temp.getPosition(), imageStore.getImageList(Web.WEB_KEY), 1.091);
+
+                        Point treePoint = temp.getPosition();
+                        world.removeEntityAt(treePoint);
+
+                        Web web = new Web(Web.WEB_KEY, treePoint, imageStore.getImageList(Web.WEB_KEY), 1.091);
                         world.addEntity(web);
                         web.ScheduleActions(scheduler, world, imageStore);
+
                         world.removeEntity(scheduler,this);
                         scheduler.unscheduleAllEvents(this);
                     }
                 }
-
 
             }
         }

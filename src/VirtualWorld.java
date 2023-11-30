@@ -1,6 +1,8 @@
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.List;
 
 import processing.core.*;
 
@@ -30,6 +32,7 @@ public final class VirtualWorld extends PApplet {
     private EventScheduler scheduler;
     private String loadFile = "world.sav";
     private long startTimeMillis = 0;
+    private int clickCount = 10;
 
         /*
           Called with color for which alpha should be set and alpha value.
@@ -93,10 +96,32 @@ public final class VirtualWorld extends PApplet {
 
     public void draw() {
         double appTime = (System.currentTimeMillis() - startTimeMillis) * 0.001;
-        double frameTime = (appTime - scheduler.currentTime())/timeScale;
+        double frameTime = (appTime - scheduler.currentTime()) / timeScale;
+
         this.update(frameTime);
         view.drawViewport();
+
+        // Text properties
+        fill(0,0,0);
+        textSize(25); // Text size
+
+        // Format the text
+        String textToDisplay = String.format(String.valueOf(clickCount));
+
+        // Calculate text width
+        float textWidth = textWidth(textToDisplay);
+
+        // Calculate X position for text to be centered
+        float xPosition = (width - textWidth) / 2;
+
+        // Set Y position (adjust as needed)
+        float yPosition = 30;
+
+        // Display the text
+        text(textToDisplay, xPosition, yPosition);
     }
+
+
 
     public void update(double frameTime){
         scheduler.updateOnTime(frameTime);
@@ -105,12 +130,22 @@ public final class VirtualWorld extends PApplet {
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
     public void mousePressed() {
+        clickCount--;
+        System.out.println(clickCount);
+
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
         if(!world.isOccupied(pressed)){
             Spider entity = new Spider("spider", pressed, imageStore.getImageList(Spider.SPIDER_KEY) , 0.3,
                     0.45, true);
+            world.tryAddEntity(entity);
+            entity.ScheduleActions(scheduler, world, imageStore);
+        }
+
+        if(clickCount == 9){
+            BigSpider entity = new BigSpider("big_spider", new Point(16,1 ), imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , 0.3,
+                    0.1, true);
             world.tryAddEntity(entity);
             entity.ScheduleActions(scheduler, world, imageStore);
         }
@@ -121,6 +156,7 @@ public final class VirtualWorld extends PApplet {
     }
 
     public void keyPressed() {
+
         if (key == CODED) {
             int dx = 0;
             int dy = 0;

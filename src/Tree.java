@@ -15,11 +15,11 @@ public class Tree extends Plant{
     public static final int TREE_HEALTH_MAX = 3;
     public static final int TREE_HEALTH_MIN = 1;
 
-    private boolean webbed = false;
+    private boolean isWebbed = false;
 
     public Tree(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int health){
         super(id, position, images, animationPeriod, actionPeriod, health);
-        this.webbed = false;
+        isWebbed = false;
     }
 
     @Override
@@ -42,10 +42,10 @@ public class Tree extends Plant{
     }
 
     public boolean isWebbed() {
-        return webbed;
+        return isWebbed;
     }
 
     public void setWebbed(boolean webbed) {
-        this.webbed = webbed;
+        isWebbed = webbed;
     }
 }
