@@ -225,6 +225,11 @@ public final class WorldModel {
                             Double.parseDouble(properties[BigSpider.BIG_SPIDER_ACTION_PERIOD]), false);
                     world.tryAddEntity(entity);
                 }
+                case Volcano.VOLCANO_KEY -> {
+                    Volcano entity = new Volcano(id, pt, imageStore.getImageList(Volcano.VOLCANO_KEY),
+                            Double.parseDouble(properties[Volcano.VOLCANO_ANIMATION_PERIOD]), false);
+                    world.tryAddEntity(entity);
+                }
                 default -> throw new IllegalArgumentException("Entity key is unknown");
             }
         }else{

@@ -136,15 +136,17 @@ public final class VirtualWorld extends PApplet {
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
-        if(!world.isOccupied(pressed)){
-            Spider entity = new Spider("spider", pressed, imageStore.getImageList(Spider.SPIDER_KEY) , 0.3,
-                    0.45, true);
-            world.tryAddEntity(entity);
-            entity.ScheduleActions(scheduler, world, imageStore);
+
+        Optional<Entity> volacno = world.findNearest(pressed, Volcano.class);
+
+        if(volacno.isPresent()){
+            if (volacno.get() instanceof Volcano temp) {
+                temp.setErupted(true);
+                temp.ScheduleActions(scheduler, world, imageStore);
+            }
         }
 
-        if(clickCount == 5){
-            clickCount = 10;
+        if(!world.isOccupied(pressed)){
             BigSpider entity = new BigSpider("big_spider", new Point(16,1 ), imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , 0.4,
                     0.1, true);
             world.tryAddEntity(entity);
