@@ -49,11 +49,11 @@ public class Spider extends Movable {
                     if(tree instanceof Tree temp){
 
                         Point treePoint = temp.getPosition();
-                        world.removeEntityAt(treePoint);
+//                        world.removeEntityAt(treePoint);
 
-                        Web web = new Web(Web.WEB_KEY, treePoint, imageStore.getImageList(Web.WEB_KEY), 1.091);
-                        world.addEntity(web);
-                        web.ScheduleActions(scheduler, world, imageStore);
+//                        Web web = new Web(Web.WEB_KEY, treePoint, imageStore.getImageList(Web.WEB_KEY), 1.091);
+//                        world.addEntity(web);
+//                        web.ScheduleActions(scheduler, world, imageStore);
 
                         world.removeEntity(scheduler,this);
                         scheduler.unscheduleAllEvents(this);

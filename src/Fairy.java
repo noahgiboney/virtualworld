@@ -18,8 +18,24 @@ public class Fairy extends Movable {
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.class);
+        Optional<Entity> bloodTarget = world.findNearest(getPosition(), Blood.class);
 
-        if (fairyTarget.isPresent()) {
+        if (bloodTarget.isPresent()){
+
+            if(moveTo(world, bloodTarget.get(), scheduler)){
+                Entity blood = bloodTarget.get();
+                if(blood instanceof Blood temp) {
+                    Point bloodPosition = temp.getPosition();
+                    world.removeEntityAt(bloodPosition);
+
+                    DudeNotFull dude = new DudeNotFull(Dude.DUDE_KEY, new Point(getPosition().getX() - 1, getPosition().getY()), imageStore.getImageList(Dude.DUDE_KEY), 0.180,
+                            0.720, 4);
+                    world.addEntity(dude);
+                    dude.ScheduleActions(scheduler, world, imageStore);
+                }
+            }
+        }
+        else if (fairyTarget.isPresent()) {
 
             Point tgtPos = fairyTarget.get().getPosition();
 

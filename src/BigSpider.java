@@ -49,6 +49,8 @@ public class BigSpider extends Spider {
                     world.addEntity(blood);
                     blood.ScheduleActions(scheduler, world, imageStore);
 
+                    world.removeEntityAt(getPosition());
+
                 }
             }
 

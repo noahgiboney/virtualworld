@@ -143,8 +143,9 @@ public final class VirtualWorld extends PApplet {
             entity.ScheduleActions(scheduler, world, imageStore);
         }
 
-        if(clickCount == 9){
-            BigSpider entity = new BigSpider("big_spider", new Point(16,1 ), imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , 0.3,
+        if(clickCount == 5){
+            clickCount = 10;
+            BigSpider entity = new BigSpider("big_spider", new Point(16,1 ), imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , 0.4,
                     0.1, true);
             world.tryAddEntity(entity);
             entity.ScheduleActions(scheduler, world, imageStore);
