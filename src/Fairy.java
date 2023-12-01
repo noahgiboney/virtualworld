@@ -108,24 +108,15 @@ public class Fairy extends Movable {
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
 
-
-//        if (isStuck) {
-//            if (System.currentTimeMillis() - stuckTime < 1000) {
-//                return false;
-//            } else {
-//                isStuck = false;
-//            }
-//        }
-//
-//        Optional<Entity> web = world.findNearest(getPosition(), Web.class);
-//        if (web.isPresent() && web.get() instanceof Web temp) {
-//            if (getPosition().adjacent(temp.getPosition())) {
-//                isStuck = true;
-//                stuckTime = System.currentTimeMillis();
-////                world.moveEntity(scheduler, this, new Point(getPosition().getX() - 1, getPosition().getY()));
-//                return false;
-//            }
-//        }
+        Optional<Entity> web = world.findNearest(getPosition(), Web.class);
+        if (web.isPresent() && web.get() instanceof Web temp) {
+            if (getPosition().adjacent(temp.getPosition())) {
+                isStuck = true;
+                stuckTime = System.currentTimeMillis();
+                world.moveEntity(scheduler, this, new Point(getPosition().getX() - 1, getPosition().getY()));
+                return false;
+            }
+        }
 
         if (getPosition().adjacent(target.getPosition())) {
             world.removeEntity(scheduler, target);

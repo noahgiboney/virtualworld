@@ -239,7 +239,7 @@ public final class WorldModel {
                 }
                 case Spider.SPIDER_KEY -> {
                     Spider entity = new Spider(id, pt, imageStore.getImageList(Spider.SPIDER_KEY) , Double.parseDouble(properties[Spider.SPIDER_ANIMATION_PERIOD]),
-                            Double.parseDouble(properties[Spider.SPIDER_ACTION_PERIOD]), false);
+                            Double.parseDouble(properties[Spider.SPIDER_ACTION_PERIOD]));
                     world.tryAddEntity(entity);
                 }
                 case Web.WEB_KEY -> {

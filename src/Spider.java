@@ -10,18 +10,12 @@ public class Spider extends Movable {
     public static final int SPIDER_ACTION_PERIOD = 1;
     private static final PathingStrategy SPIDER_SINGLE_STEP = new SingleStepPathingStrategy();
     private static final PathingStrategy SPIDER_A_STAR = new AStarPathingStrategy();
-    private boolean canMove;
-
-    public Spider(String id, Point position, List<PImage> images, double animationPeriod, double actionPeriod, boolean canMove) {
+    public Spider(String id, Point position, List<PImage> images, double animationPeriod, double actionPeriod) {
         super(id, position, images, animationPeriod, actionPeriod, SPIDER_A_STAR);
-        this.canMove = canMove;
     }
 
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
-        if(!canMove){
-            return false;
-        }
 
         if (getPosition().adjacent(target.getPosition())) {
             return true;
@@ -53,13 +47,5 @@ public class Spider extends Movable {
             }
         }
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
-    }
-
-    public boolean isCanMove() {
-        return canMove;
-    }
-
-    public void setCanMove(boolean canMove) {
-        this.canMove = canMove;
     }
 }
