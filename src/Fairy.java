@@ -18,6 +18,18 @@ public class Fairy extends Movable {
         super(id, position, images, animationPeriod, actionPeriod, FAIRY_A_STAR);
     }
 
+
+
+//     if (targetTree.isPresent() && targetSapling.isPresent()) {
+//        int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
+//        int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
+//        target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
+//    } else if (targetTree.isPresent()) {
+//        target = targetTree;
+//    } else if (targetSapling.isPresent()) {
+//        target = targetSapling;
+//    }
+
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.class);
@@ -25,7 +37,6 @@ public class Fairy extends Movable {
         Optional<Entity> spiderTarget = world.findNearest(getPosition(), Spider.class);
 
         if(spiderTarget.isPresent()){
-
             if(moveTo(world, spiderTarget.get(), scheduler)){
                 if(spiderTarget.get() instanceof Spider temp){
                     Point spiderPos = temp.getPosition();
