@@ -32,7 +32,7 @@ public final class VirtualWorld extends PApplet {
     private EventScheduler scheduler;
     private String loadFile = "world.sav";
     private long startTimeMillis = 0;
-    private int clickCount = 10;
+    private int clickCount = 0;
 
         /*
           Called with color for which alpha should be set and alpha value.
@@ -100,25 +100,6 @@ public final class VirtualWorld extends PApplet {
 
         this.update(frameTime);
         view.drawViewport();
-
-        // Text properties
-        fill(0,0,0);
-        textSize(25); // Text size
-
-        // Format the text
-        String textToDisplay = String.format(String.valueOf(clickCount));
-
-        // Calculate text width
-        float textWidth = textWidth(textToDisplay);
-
-        // Calculate X position for text to be centered
-        float xPosition = (width - textWidth) / 2;
-
-        // Set Y position (adjust as needed)
-        float yPosition = 30;
-
-        // Display the text
-        text(textToDisplay, xPosition, yPosition);
     }
 
 
@@ -130,7 +111,7 @@ public final class VirtualWorld extends PApplet {
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
     public void mousePressed() {
-        clickCount--;
+        clickCount++;
         System.out.println(clickCount);
 
         Point pressed = mouseToPoint();
@@ -140,18 +121,18 @@ public final class VirtualWorld extends PApplet {
         Optional<Entity> volacno = world.findNearest(pressed, Volcano.class);
 
         if(volacno.isPresent()){
-            if (volacno.get() instanceof Volcano temp) {
+            if (volacno.get() instanceof Volcano temp && clickCount == 1){
                 temp.setErupted(true);
                 temp.ScheduleActions(scheduler, world, imageStore);
             }
         }
 
-        if(!world.isOccupied(pressed)){
-            BigSpider entity = new BigSpider("big_spider", new Point(16,1 ), imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , 0.4,
-                    0.1, true);
-            world.tryAddEntity(entity);
-            entity.ScheduleActions(scheduler, world, imageStore);
-        }
+//        if(!world.isOccupied(pressed)){
+//            BigSpider entity = new BigSpider("big_spider", new Point(16,1 ), imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , 0.4,
+//                    0.1, true);
+//            world.tryAddEntity(entity);
+//            entity.ScheduleActions(scheduler, world, imageStore);
+//        }
     }
 
     private Point mouseToPoint() {
