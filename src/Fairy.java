@@ -32,11 +32,40 @@ public class Fairy extends Movable {
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> fairyTarget = world.findNearest(getPosition(), Stump.class);
+        Optional<Entity> saplingTarget = world.findNearest(getPosition(), Stump.class);
         Optional<Entity> bloodTarget = world.findNearest(getPosition(), Blood.class);
         Optional<Entity> spiderTarget = world.findNearest(getPosition(), Spider.class);
+        Optional<Entity> target;
 
-        if(spiderTarget.isPresent()){
+        if(bloodTarget.isPresent() && spiderTarget.isPresent()){
+            int distanceToBlood = getPosition().distanceSquared(bloodTarget.get().getPosition());
+            int distanceToSpider = getPosition().distanceSquared(spiderTarget.get().getPosition());
+            target = (distanceToBlood <= distanceToSpider) ? bloodTarget : spiderTarget;
+
+            if(moveTo(world, target.get(), scheduler)){
+                if(target.get() instanceof Blood temp){
+                    Point bloodPosition = temp.getPosition();
+                    world.removeEntityAt(bloodPosition);
+
+                    DudeNotFull dude = new DudeNotFull(Dude.DUDE_KEY, new Point(getPosition().getX() - 1, getPosition().getY()), imageStore.getImageList(Dude.DUDE_KEY), 0.180,
+                            0.720, 4);
+                    world.addEntity(dude);
+                    dude.ScheduleActions(scheduler, world, imageStore);
+                }
+                else if(target.get() instanceof Spider){
+                    if(spiderTarget.get() instanceof Spider temp){
+                        Point spiderPos = temp.getPosition();
+                        world.removeEntityAt(spiderPos);
+
+                        Web web = new Web(Web.WEB_KEY, spiderPos, imageStore.getImageList(Web.WEB_KEY), 0.5);
+                        world.addEntity(web);
+                        web.ScheduleActions(scheduler,world,imageStore);
+                    }
+                }
+            }
+
+        }
+        else if(spiderTarget.isPresent()){
             if(moveTo(world, spiderTarget.get(), scheduler)){
                 if(spiderTarget.get() instanceof Spider temp){
                     Point spiderPos = temp.getPosition();
@@ -62,14 +91,13 @@ public class Fairy extends Movable {
                 }
             }
         }
-        else if (fairyTarget.isPresent()) {
+        else if (saplingTarget.isPresent()) {
 
-            Point tgtPos = fairyTarget.get().getPosition();
+            Point tgtPos = saplingTarget.get().getPosition();
 
-            if (moveTo(world, fairyTarget.get(), scheduler)) {
-                Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + fairyTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
+            if (moveTo(world, saplingTarget.get(), scheduler)) {
+                Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + saplingTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
                         Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0, Sapling.SAPLING_HEALTH_LIMIT);
-
                 world.addEntity(sapling);
                 sapling.ScheduleActions(scheduler, world, imageStore);
             }

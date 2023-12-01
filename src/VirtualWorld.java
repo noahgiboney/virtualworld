@@ -137,7 +137,7 @@ public final class VirtualWorld extends PApplet {
                     lava.ScheduleActions(scheduler, world, imageStore);
                 }
 
-                ScheduledExecutorService repeater = Executors.newScheduledThreadPool(1);
+                ScheduledExecutorService repeater = Executors.newScheduledThreadPool(3);
 
                 Runnable task = () -> {
                     Spider spider1 = new Spider(Spider.SPIDER_KEY, new Point(13, 0), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
@@ -162,7 +162,7 @@ public final class VirtualWorld extends PApplet {
                     spider3.ScheduleActions(scheduler, world, imageStore);
                 };
 
-                repeater.scheduleAtFixedRate(task, 0, 5, TimeUnit.SECONDS);
+                repeater.scheduleAtFixedRate(task, 0, 3, TimeUnit.SECONDS);
             }
         }
     }
