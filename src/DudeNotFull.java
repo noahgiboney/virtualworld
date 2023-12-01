@@ -18,28 +18,17 @@ public class DudeNotFull extends Dude{
         //all three possible targets for dude
         Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.class);
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
-        Optional<Entity> targetSpider = world.findNearest(getPosition(), Spider.class);
         Optional<Entity> target = Optional.empty();
 
-        // Check for Spider and its ability to move
-        if (targetSpider.isPresent()) {
-            Entity spider = targetSpider.get();
-            if (spider instanceof Spider temp && temp.isCanMove()) {
-                target = targetSpider;
-            }
-        }
-
         // Check for Tree and Sapling if Spider is not a valid target
-        if (target.isEmpty()) {
-            if (targetTree.isPresent() && targetSapling.isPresent()) {
-                int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
-                int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
-                target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
-            } else if (targetTree.isPresent()) {
-                target = targetTree;
-            } else if (targetSapling.isPresent()) {
-                target = targetSapling;
-            }
+        if (targetTree.isPresent() && targetSapling.isPresent()) {
+            int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
+            int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
+            target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
+        } else if (targetTree.isPresent()) {
+            target = targetTree;
+        } else if (targetSapling.isPresent()) {
+            target = targetSapling;
         }
 
         // Execute movement or transformation if a target is present
@@ -58,8 +47,6 @@ public class DudeNotFull extends Dude{
             } else if (target instanceof Sapling) {
                 this.resourceCount += 1; // Increase resource count for Sapling
                 ((Sapling) target).setHealth(((Sapling) target).getHealth() - 1);
-            } else if (target instanceof Spider temp) {
-                return true;
             }
             return true;
         } else {

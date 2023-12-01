@@ -54,26 +54,17 @@ flowers flowers flowers grass grass grass grass grass grass grass grass grass gr
 flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers flowers
 flowers flowers flowers flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers flowers flowers
 Entities:
-volcano  10 09 0.04
+volcano  09 09 0.04
+        obstacle  16 12 1.105
+        obstacle  15 12 0.90
+        obstacle  14 12 1.2
     web  12 14 1.091
-    web  19 00 0.99
-    web  15 04 1.105
-    web  18 03 1.091
-    web  20 03 0.99
-    web  15 02 1.105
-    web  13 01 1.091
-    web  19 02 1.091
+    web  07 12 1.091
+    web  15 13 1.091
         tree  14 13 0.144 1.266 2
-        tree  10 11 0.501 1.289 2
-        tree  15 01 0.513 1.330 2
-        tree  17 04 0.513 1.330 2
-        tree  14 02 0.513 1.330 2
+        tree  08 12 0.501 1.289 2
+        tree  17 02 0.513 1.330 2
         tree  14 01 0.513 1.330 2
-    spider  20 00 0.08 0.45
-    spider  19 04 0.08 0.45
-    spider  16 00 0.08 0.45
-    spider  13 00 0.08 0.45
-    spider  16 05 0.08 0.45
     tree  35 27 0.256 1.168 2
     tree  35 25 0.144 1.266 2
 obstacle  13 07 1.126
@@ -119,7 +110,7 @@ obstacle  29 20 1.001
     tree  01 03 0.357 1.164 2
 obstacle  15 08 1.158
 obstacle  14 08 1.097
-    tree  09 13 0.262 1.205 1
+    tree  09 14 0.262 1.205 1
     tree  27 10 0.346 1.361 1
     tree  02 04 0.114 1.088 1
     tree  03 24 0.162 1.314 1

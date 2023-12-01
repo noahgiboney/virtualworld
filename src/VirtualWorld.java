@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import processing.core.*;
 
@@ -124,15 +128,27 @@ public final class VirtualWorld extends PApplet {
             if (volacno.get() instanceof Volcano temp && clickCount == 1){
                 temp.setErupted(true);
                 temp.ScheduleActions(scheduler, world, imageStore);
+
+                List<Point> lavaPoints = world.removeAllEntitiesOfType(Obstacle.class, scheduler);
+
+                for(Point index : lavaPoints){
+                    Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, index, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f,0.8f));
+                    world.addEntity(lava);
+                    lava.ScheduleActions(scheduler, world, imageStore);
+                }
+
+                ScheduledExecutorService repeater = Executors.newScheduledThreadPool(1);
+
+                Runnable task = () -> {
+                    Spider spider = new Spider(Spider.SPIDER_KEY, new Point(8, 13), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                            random(0.3f,0.7f), true);
+                    world.tryAddEntity(spider);
+                    spider.ScheduleActions(scheduler, world, imageStore);
+                };
+
+                repeater.scheduleAtFixedRate(task, 0, 5, TimeUnit.SECONDS);
             }
         }
-
-//        if(!world.isOccupied(pressed)){
-//            BigSpider entity = new BigSpider("big_spider", new Point(16,1 ), imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , 0.4,
-//                    0.1, true);
-//            world.tryAddEntity(entity);
-//            entity.ScheduleActions(scheduler, world, imageStore);
-//        }
     }
 
     private Point mouseToPoint() {

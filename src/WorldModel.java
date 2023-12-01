@@ -128,6 +128,32 @@ public final class WorldModel {
         this.addEntity(entity);
     }
 
+    public List<Point> removeAllEntitiesOfType(Class<?> entityType, EventScheduler scheduler) {
+        List<Entity> entitiesToRemove = new ArrayList<>();
+        List<Point> points = new ArrayList<>();
+
+        // Assuming you have a way to iterate over all grid cells
+        for (int row = 0; row <= 39; row++) {
+            for (int col = 0; col <= 29; col++) {
+                Point pos = new Point(row, col);
+                Optional<Entity> occupant = this.getOccupant(pos);
+
+                occupant.ifPresent(entity -> {
+                    if (entityType.isInstance(entity)) {
+                        entitiesToRemove.add(entity);
+                    }
+                });
+            }
+        }
+
+        // Remove each collected entity
+        for (Entity entity : entitiesToRemove) {
+            points.add(entity.getPosition());
+            removeEntity(scheduler, entity);
+        }
+        return points;
+    }
+
     public void parseBackgroundRow(String line, int row, ImageStore imageStore) {
         String[] cells = line.split(" ");
         if(row < this.numRows){
@@ -218,11 +244,6 @@ public final class WorldModel {
                 }
                 case Web.WEB_KEY -> {
                     Web entity = new Web(id, pt, imageStore.getImageList(Web.WEB_KEY), Double.parseDouble(properties[Web.WEB_ANIMATION_PERIOD]));
-                    world.tryAddEntity(entity);
-                }
-                case BigSpider.BIG_SPIDER_KEY -> {
-                    Spider entity = new Spider(id, pt, imageStore.getImageList(BigSpider.BIG_SPIDER_KEY) , Double.parseDouble(properties[BigSpider.BIG_SPIDER_ANIMATION_PERIOD]),
-                            Double.parseDouble(properties[BigSpider.BIG_SPIDER_ACTION_PERIOD]), false);
                     world.tryAddEntity(entity);
                 }
                 case Volcano.VOLCANO_KEY -> {

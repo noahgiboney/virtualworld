@@ -39,27 +39,20 @@ public class Spider extends Movable {
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> dudeTarget = world.findNearest(getPosition(), Dude.class);
 
-        if (dudeTarget.isPresent()) {
+        if(dudeTarget.isPresent()){
 
-            if (moveTo(world, dudeTarget.get(), scheduler)) {
-                Optional<Entity> webTarget = world.findNearest(getPosition(), Tree.class);
+            if(moveTo(world, dudeTarget.get(), scheduler)){
+                Entity dude = dudeTarget.get();
 
-                if(webTarget.isPresent()){
-                    Entity tree = webTarget.get();
-                    if(tree instanceof Tree temp){
+                if (dude instanceof Dude temp){
 
-                        Point treePoint = temp.getPosition();
-//                        world.removeEntityAt(treePoint);
+                    Point dudePoint = temp.getPosition();
+                    world.removeEntityAt(dudePoint);
 
-//                        Web web = new Web(Web.WEB_KEY, treePoint, imageStore.getImageList(Web.WEB_KEY), 1.091);
-//                        world.addEntity(web);
-//                        web.ScheduleActions(scheduler, world, imageStore);
-
-                        world.removeEntity(scheduler,this);
-                        scheduler.unscheduleAllEvents(this);
-                    }
+                    Blood blood = new Blood(Blood.BLOOD_KEY, dudePoint, imageStore.getImageList(Blood.BLOOD_KEY), 0.1);
+                    world.addEntity(blood);
+                    blood.ScheduleActions(scheduler, world, imageStore);
                 }
-
             }
         }
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
