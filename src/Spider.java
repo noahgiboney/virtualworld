@@ -40,11 +40,8 @@ public class Spider extends Movable {
         Optional<Entity> dudeTarget = world.findNearest(getPosition(), Dude.class);
 
         if(dudeTarget.isPresent()){
-
             if(moveTo(world, dudeTarget.get(), scheduler)){
-                Entity dude = dudeTarget.get();
-
-                if (dude instanceof Dude temp){
+                if (dudeTarget.get() instanceof Dude temp){
 
                     Point dudePoint = temp.getPosition();
                     world.removeEntityAt(dudePoint);

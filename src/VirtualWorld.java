@@ -140,10 +140,26 @@ public final class VirtualWorld extends PApplet {
                 ScheduledExecutorService repeater = Executors.newScheduledThreadPool(1);
 
                 Runnable task = () -> {
-                    Spider spider = new Spider(Spider.SPIDER_KEY, new Point(8, 13), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                            random(0.3f,0.7f), true);
-                    world.tryAddEntity(spider);
-                    spider.ScheduleActions(scheduler, world, imageStore);
+                    Spider spider1 = new Spider(Spider.SPIDER_KEY, new Point(13, 0), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                            0.2, true);
+                    world.tryAddEntity(spider1);
+                    spider1.ScheduleActions(scheduler, world, imageStore);
+
+
+                    Spider spider2 = new Spider(Spider.SPIDER_KEY, new Point(0, 15), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                            0.2, true);
+                    world.tryAddEntity(spider2);
+                    spider2.ScheduleActions(scheduler, world, imageStore);
+
+                    Spider spider3 = new Spider(Spider.SPIDER_KEY, new Point(16, 14), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                            0.2, true);
+                    world.tryAddEntity(spider3);
+                    spider3.ScheduleActions(scheduler, world, imageStore);
+
+                    Spider spider4 = new Spider(Spider.SPIDER_KEY, new Point(3, 25), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                            0.2, true);
+                    world.tryAddEntity(spider4);
+                    spider3.ScheduleActions(scheduler, world, imageStore);
                 };
 
                 repeater.scheduleAtFixedRate(task, 0, 5, TimeUnit.SECONDS);
