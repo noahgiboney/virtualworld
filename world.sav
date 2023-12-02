@@ -55,10 +55,14 @@ flowers flowers flowers grass grass grass grass grass grass grass grass grass gr
 flowers flowers flowers flowers flowers flowers grass grass grass grass grass grass grass grass grass grass grass grass grass grass flowers grass grass grass grass grass grass grass grass grass grass grass grass grass flowers flowers grass flowers flowers flowers
 Entities:
 volcano  10 11 0.04
+volcano  13 03 0.05
         obstacle  15 11 0.90
         obstacle  13 12 1.1
         obstacle  14 11 0.8
         obstacle  14 12 1.2
+      obstacle  11 06 0.9
+      obstacle  11 05 1.3
+      obstacle  12 05 0.8
     web  16 13 1.091
     web  15 14 1.091
     web  17 14 1.091

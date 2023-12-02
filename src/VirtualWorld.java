@@ -120,47 +120,57 @@ public final class VirtualWorld extends PApplet {
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
 
-        Optional<Entity> volcano = world.findNearest(pressed, Volcano.class);
+        if (clickCount == 1) {
 
-        if(volcano.isPresent()){
-            if (volcano.get() instanceof Volcano temp && clickCount == 1){
-                temp.setErupted(true);
-                temp.ScheduleActions(scheduler, world, imageStore);
-
-                List<Point> lavaPoints = world.removeAllEntitiesOfType(Obstacle.class, scheduler);
-
-                for(Point index : lavaPoints){
-                    Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, index, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f,0.8f));
-                    world.addEntity(lava);
-                    lava.ScheduleActions(scheduler, world, imageStore);
+            //gather all volcanoes in the world
+            List<Entity> volcanoes = world.findAllEntities(Volcano.class, scheduler);
+            for (Entity index : volcanoes) {
+                if (index instanceof Volcano volcano) {
+                    volcano.setErupted(true);
+                    volcano.ScheduleActions(scheduler, world, imageStore);
                 }
-
-                ScheduledExecutorService repeater = Executors.newScheduledThreadPool(4);
-
-                Runnable task = () -> {
-                    Spider spider1 = new Spider(Spider.SPIDER_KEY, new Point(13, 0), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                            0.15);
-                    world.tryAddEntity(spider1);
-                    spider1.ScheduleActions(scheduler, world, imageStore);
-
-                    Spider spider2 = new Spider(Spider.SPIDER_KEY, new Point(0, 15), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                            0.15);
-                    world.tryAddEntity(spider2);
-                    spider2.ScheduleActions(scheduler, world, imageStore);
-
-                    Spider spider3 = new Spider(Spider.SPIDER_KEY, new Point(16, 14), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                            0.15);
-                    world.tryAddEntity(spider3);
-                    spider3.ScheduleActions(scheduler, world, imageStore);
-
-                    Spider spider4 = new Spider(Spider.SPIDER_KEY, new Point(3, 25), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                            0.15);
-                    world.tryAddEntity(spider4);
-                    spider3.ScheduleActions(scheduler, world, imageStore);
-                };
-
-                repeater.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
             }
+
+            //gather all water tiles
+            List<Entity> waterTiles = world.findAllEntities(Obstacle.class, scheduler);
+            List<Point> lavaTiles = new ArrayList<>();
+
+            for (Entity index : waterTiles) {
+                lavaTiles.add(index.getPosition());
+                world.removeEntityAt(index.getPosition());
+            }
+
+            for (Point index : lavaTiles) {
+                Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, index, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f, 0.8f));
+                world.addEntity(lava);
+                lava.ScheduleActions(scheduler, world, imageStore);
+            }
+
+            ScheduledExecutorService repeater = Executors.newScheduledThreadPool(4);
+
+            Runnable task = () -> {
+                Spider spider1 = new Spider(Spider.SPIDER_KEY, new Point(13, 0), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                        0.15);
+                world.tryAddEntity(spider1);
+                spider1.ScheduleActions(scheduler, world, imageStore);
+
+                Spider spider2 = new Spider(Spider.SPIDER_KEY, new Point(0, 15), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                        0.15);
+                world.tryAddEntity(spider2);
+                spider2.ScheduleActions(scheduler, world, imageStore);
+
+                Spider spider3 = new Spider(Spider.SPIDER_KEY, new Point(16, 14), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                        0.15);
+                world.tryAddEntity(spider3);
+                spider3.ScheduleActions(scheduler, world, imageStore);
+
+                Spider spider4 = new Spider(Spider.SPIDER_KEY, new Point(3, 25), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                        0.15);
+                world.tryAddEntity(spider4);
+                spider3.ScheduleActions(scheduler, world, imageStore);
+            };
+
+            repeater.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
         }
     }
 

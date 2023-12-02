@@ -128,9 +128,8 @@ public final class WorldModel {
         this.addEntity(entity);
     }
 
-    public List<Point> removeAllEntitiesOfType(Class<?> entityType, EventScheduler scheduler) {
-        List<Entity> entitiesToRemove = new ArrayList<>();
-        List<Point> points = new ArrayList<>();
+    public List<Entity> findAllEntities(Class<?> entityType, EventScheduler scheduler) {
+        List<Entity> entities = new ArrayList<>();
 
         // Assuming you have a way to iterate over all grid cells
         for (int row = 0; row <= 39; row++) {
@@ -140,18 +139,12 @@ public final class WorldModel {
 
                 occupant.ifPresent(entity -> {
                     if (entityType.isInstance(entity)) {
-                        entitiesToRemove.add(entity);
+                        entities.add(entity);
                     }
                 });
             }
         }
-
-        // Remove each collected entity
-        for (Entity entity : entitiesToRemove) {
-            points.add(entity.getPosition());
-            removeEntity(scheduler, entity);
-        }
-        return points;
+        return entities;
     }
 
     public void parseBackgroundRow(String line, int row, ImageStore imageStore) {
