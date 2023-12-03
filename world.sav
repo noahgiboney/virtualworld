@@ -77,6 +77,8 @@ volcano  30 15 0.05
     web  12 00 1.091
     web  14 01 1.091
     web  11 01 1.091
+    web  29 06 1.091
+    web  32 07 1.091
     tree  35 27 0.256 1.168 2
     tree  17 13 0.256 1.168 2
     tree  14 00 0.451 1.315 2
@@ -157,6 +159,7 @@ obstacle  35 21 1.147
 obstacle  18 11 1.089
 obstacle  05 08 1.097
    house  36 26
+   house  04 20
 obstacle  00 08 1.018
 obstacle  00 07 1.141
     tree  25 04 0.198 1.106 2

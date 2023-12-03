@@ -123,6 +123,8 @@ public final class WorldModel {
 
     public void tryAddEntity(Entity entity) {
         if (isOccupied(entity.getPosition())) {
+            // arguably the wrong type of exception, but we are not
+            // defining our own exceptions yet
             throw new IllegalArgumentException("position occupied");
         }
         this.addEntity(entity);
