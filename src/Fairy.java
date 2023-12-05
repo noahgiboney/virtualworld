@@ -15,18 +15,64 @@ public class Fairy extends Movable {
         super(id, position, images, animationPeriod, actionPeriod, FAIRY_A_STAR);
     }
 
+//    // Check for Tree and Sapling if Spider is not a valid target
+//        if (targetTree.isPresent() && targetSapling.isPresent()) {
+//        int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
+//        int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
+//        target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
+//    } else if (targetTree.isPresent()) {
+//        target = targetTree;
+//    } else if (targetSapling.isPresent()) {
+//        target = targetSapling;
+//    }
+
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> stumpTarget = world.findNearest(getPosition(), Stump.class);
+        Optional<Entity> bloodTarget = world.findNearest(getPosition(), Blood.class);
+        Optional<Entity> spiderTarget = world.findNearest(getPosition(), Spider.class);
+        Optional<Entity> target = Optional.empty();
 
-        if (stumpTarget.isPresent()) {
-            Point tgtPos = stumpTarget.get().getPosition();
-            if (moveTo(world, stumpTarget.get(), scheduler)) {
-                Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + stumpTarget.get().getId(), tgtPos, imageStore.getImageList(Sapling.SAPLING_KEY),
+        if(bloodTarget.isPresent() && spiderTarget.isPresent()){
+            int distToBlood = getPosition().distanceSquared(bloodTarget.get().getPosition());
+            int distToSpider = getPosition().distanceSquared(spiderTarget.get().getPosition());
+            target = (distToSpider <= distToBlood) ? spiderTarget : bloodTarget;
+        }
+        else if (spiderTarget.isPresent()){
+            target = spiderTarget;
+        }
+        else if(bloodTarget.isPresent()){
+            target = bloodTarget;
+        }
+        else if (stumpTarget.isPresent()){
+            target = stumpTarget;
+        }
+
+        if(target.isPresent()){
+            Point targetPoint = target.get().getPosition();
+
+            if(moveTo(world, target.get(), scheduler)){
+
+                if(target.get() instanceof Blood){
+                    DudeNotFull entity = new DudeNotFull(Dude.DUDE_KEY, targetPoint, imageStore.getImageList(Dude.DUDE_KEY), 0.180,
+                            0.787, 4);
+                    world.tryAddEntity(entity);
+                    entity.ScheduleActions(scheduler, world, imageStore);
+                }
+                else if (target.get() instanceof Spider) {
+
+                }
+                else{
+                    if(target.get() instanceof Stump){
+                        Sapling sapling = new Sapling(Sapling.SAPLING_KEY + "_" + target.get().getId(), targetPoint, imageStore.getImageList(Sapling.SAPLING_KEY),
                         Sapling.SAPLING_ACTION_ANIMATION_PERIOD, Sapling.SAPLING_ACTION_ANIMATION_PERIOD, 0, Sapling.SAPLING_HEALTH_LIMIT);
-                world.addEntity(sapling);
-                sapling.ScheduleActions(scheduler, world, imageStore);
+                     world.addEntity(sapling);
+                     sapling.ScheduleActions(scheduler, world, imageStore);
+                    }
+                }
+
             }
+
         }
         scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
     }
