@@ -149,27 +149,27 @@ public final class VirtualWorld extends PApplet {
 
             Runnable task = () -> {
                 Spider spider1 = new Spider(Spider.SPIDER_KEY, new Point(13, 0), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.15);
+                        0.13);
                 world.tryAddEntity(spider1);
                 spider1.ScheduleActions(scheduler, world, imageStore);
 
-                Spider spider2 = new Spider(Spider.SPIDER_KEY, new Point(0, 15), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.15);
-                world.tryAddEntity(spider2);
-                spider2.ScheduleActions(scheduler, world, imageStore);
+//                Spider spider2 = new Spider(Spider.SPIDER_KEY, new Point(0, 15), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+//                        0.15);
+//                world.tryAddEntity(spider2);
+//                spider2.ScheduleActions(scheduler, world, imageStore);
 
-                Spider spider3 = new Spider(Spider.SPIDER_KEY, new Point(16, 14), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.15);
-                world.tryAddEntity(spider3);
-                spider3.ScheduleActions(scheduler, world, imageStore);
+//                Spider spider3 = new Spider(Spider.SPIDER_KEY, new Point(16, 14), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+//                        0.15);
+//                world.tryAddEntity(spider3);
+//                spider3.ScheduleActions(scheduler, world, imageStore);
 
                 Spider spider4 = new Spider(Spider.SPIDER_KEY, new Point(3, 25), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.15);
+                        0.13);
                 world.tryAddEntity(spider4);
                 spider4.ScheduleActions(scheduler, world, imageStore);
 
                 Spider spider5 = new Spider(Spider.SPIDER_KEY, new Point(30, 7), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.15);
+                        0.13);
                 world.tryAddEntity(spider5);
                 spider5.ScheduleActions(scheduler, world, imageStore);
             };
