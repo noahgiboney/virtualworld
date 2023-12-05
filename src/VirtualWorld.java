@@ -127,28 +127,26 @@ public final class VirtualWorld extends PApplet {
             List<Entity> volcanoes = world.findAllEntities(Volcano.class, scheduler);
             for (Entity index : volcanoes) {
                 if (index instanceof Volcano volcano) {
-                    volcano.setErupted(true);
                     volcano.ScheduleActions(scheduler, world, imageStore);
                 }
             }
 
-            //gather all water tiles
-            List<Entity> waterTiles = world.findAllEntities(Obstacle.class, scheduler);
-            List<Point> lavaTiles = new ArrayList<>();
-
-            for (Entity index : waterTiles) {
-                lavaTiles.add(index.getPosition());
-                world.removeEntityAt(index.getPosition());
-            }
-
-            for (Point index : lavaTiles) {
-                Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, index, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f, 0.8f));
-                world.addEntity(lava);
-                lava.ScheduleActions(scheduler, world, imageStore);
-            }
+//            //gather all water tiles
+//            List<Entity> waterTiles = world.findAllEntities(Obstacle.class, scheduler);
+//            List<Point> lavaTiles = new ArrayList<>();
+//
+//            for (Entity index : waterTiles) {
+//                lavaTiles.add(index.getPosition());
+//                world.removeEntityAt(index.getPosition());
+//            }
+//
+//            for (Point index : lavaTiles) {
+//                Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, index, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f, 0.8f));
+//                world.addEntity(lava);
+//                lava.ScheduleActions(scheduler, world, imageStore);
+//            }
 
             Runnable task = () -> {
-
                 Point[] spiderPoints = {new Point(13,0), new Point(0,15), new Point(16,14), new Point(3,25), new Point(30,7)};
 
                 for(Point index : spiderPoints){
@@ -160,7 +158,6 @@ public final class VirtualWorld extends PApplet {
             };
             repeater.scheduleAtFixedRate(task, 0, 6, TimeUnit.SECONDS);
         }
-
     }
 
     private Point mouseToPoint() {

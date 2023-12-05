@@ -36,9 +36,9 @@ public class Fairy extends Movable {
         if(bloodTarget.isPresent() && spiderTarget.isPresent()){
             int distToBlood = getPosition().distanceSquared(bloodTarget.get().getPosition());
             int distToSpider = getPosition().distanceSquared(spiderTarget.get().getPosition());
-            target = (distToSpider <= distToBlood) ? spiderTarget : bloodTarget;
+            target = (distToSpider >= distToBlood) ? bloodTarget : spiderTarget;
         }
-        else if (spiderTarget.isPresent()){
+        else if (spiderTarget.isPresent() && stumpTarget.isPresent()){
             target = spiderTarget;
         }
         else if(bloodTarget.isPresent()){
