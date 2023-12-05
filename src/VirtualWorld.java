@@ -148,32 +148,16 @@ public final class VirtualWorld extends PApplet {
             }
 
             Runnable task = () -> {
-                Spider spider1 = new Spider(Spider.SPIDER_KEY, new Point(13, 0), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.13);
-                world.tryAddEntity(spider1);
-                spider1.ScheduleActions(scheduler, world, imageStore);
 
-//                Spider spider2 = new Spider(Spider.SPIDER_KEY, new Point(0, 15), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-//                        0.15);
-//                world.tryAddEntity(spider2);
-//                spider2.ScheduleActions(scheduler, world, imageStore);
+                Point[] spiderPoints = {new Point(13,0), new Point(0,15), new Point(16,14), new Point(3,25), new Point(30,7)};
 
-//                Spider spider3 = new Spider(Spider.SPIDER_KEY, new Point(16, 14), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-//                        0.15);
-//                world.tryAddEntity(spider3);
-//                spider3.ScheduleActions(scheduler, world, imageStore);
-
-                Spider spider4 = new Spider(Spider.SPIDER_KEY, new Point(3, 25), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.13);
-                world.tryAddEntity(spider4);
-                spider4.ScheduleActions(scheduler, world, imageStore);
-
-                Spider spider5 = new Spider(Spider.SPIDER_KEY, new Point(30, 7), imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.13);
-                world.tryAddEntity(spider5);
-                spider5.ScheduleActions(scheduler, world, imageStore);
+                for(Point index : spiderPoints){
+                    Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                            0.18);
+                    world.tryAddEntity(spider);
+                    spider.ScheduleActions(scheduler, world, imageStore);
+                }
             };
-
             repeater.scheduleAtFixedRate(task, 0, 6, TimeUnit.SECONDS);
         }
 
