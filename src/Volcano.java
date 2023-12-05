@@ -6,6 +6,7 @@ public class Volcano extends AnimationEntity {
     public static final String VOLCANO_KEY = "volcano";
     public static final int VOLCANO_ANIMATION_PERIOD = 0;
     private boolean erupted;
+    private int eruptionCount = 0;
 
     public Volcano(String id, Point position, List<PImage> images, double animationPeriod, boolean erupted){
         super(id,position,images, animationPeriod);
@@ -15,9 +16,10 @@ public class Volcano extends AnimationEntity {
     @Override
     public void ScheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
         if(erupted){
+            eruptionCount++;
             scheduler.scheduleEvent(this,new ActionAnimation(this, 0), getAnimationPeriod());
+            System.out.println(eruptionCount);
         }
-
     }
 
     public void setErupted(boolean erupted) {

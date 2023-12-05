@@ -122,16 +122,18 @@ public final class VirtualWorld extends PApplet {
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
 
-        if (clickCount == 1) {
-            //gather all volcanoes in the world
-            List<Entity> volcanoes = world.findAllEntities(Volcano.class, scheduler);
-            for (Entity index : volcanoes) {
-                if (index instanceof Volcano volcano) {
-                    volcano.ScheduleActions(scheduler, world, imageStore);
-                }
-            }
+        //gather all volcanoes in the world
+        Optional<Entity> nearestVolcano = world.findNearest(pressed, Volcano.class);
 
-//            //gather all water tiles
+        if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 7) {
+            if (nearestVolcano.get() instanceof Volcano volcano) {
+
+                volcano.setErupted(true);
+                volcano.ScheduleActions(scheduler, world, imageStore);
+            }
+        }
+
+        //gather all water tiles
 //            List<Entity> waterTiles = world.findAllEntities(Obstacle.class, scheduler);
 //            List<Point> lavaTiles = new ArrayList<>();
 //
@@ -146,18 +148,17 @@ public final class VirtualWorld extends PApplet {
 //                lava.ScheduleActions(scheduler, world, imageStore);
 //            }
 
-            Runnable task = () -> {
-                Point[] spiderPoints = {new Point(13,0), new Point(0,15), new Point(16,14), new Point(3,25), new Point(30,7)};
-
-                for(Point index : spiderPoints){
-                    Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                            0.18);
-                    world.tryAddEntity(spider);
-                    spider.ScheduleActions(scheduler, world, imageStore);
-                }
-            };
-            repeater.scheduleAtFixedRate(task, 0, 6, TimeUnit.SECONDS);
-        }
+//        Runnable task = () -> {
+//            Point[] spiderPoints = {new Point(13, 0), new Point(0, 15), new Point(16, 14), new Point(3, 25), new Point(30, 7)};
+//
+//            for (Point index : spiderPoints) {
+//                Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+//                        0.18);
+//                world.tryAddEntity(spider);
+//                spider.ScheduleActions(scheduler, world, imageStore);
+//            }
+//        };
+        repeater.scheduleAtFixedRate(task, 0, 6, TimeUnit.SECONDS);
     }
 
     private Point mouseToPoint() {
