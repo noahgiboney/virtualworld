@@ -4,13 +4,17 @@ import java.util.Optional;
 
 public class DudeFull extends Dude{
 
-    public DudeFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int resourceLimit){
-        super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
+    public DudeFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int resourceLimit, int health){
+        super(id, position, images, animationPeriod, actionPeriod, resourceLimit, health);
     }
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> fullTarget = world.findNearest(getPosition(), House.class);
+
+        if(getHealth() < 1){
+            this.transform(world,scheduler,imageStore);
+        }
 
         if (fullTarget.isPresent() && moveTo(world, fullTarget.get(), scheduler)) {
             this.transform(world, scheduler, imageStore);
@@ -36,11 +40,23 @@ public class DudeFull extends Dude{
 
     @Override
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        DudeNotFull dude = new DudeNotFull(getId(), getPosition(), getImages() , getAnimationPeriod(),
-                getActionPeriod(), getResourceLimit());
-        world.removeEntity(scheduler, this);
-        world.addEntity(dude);
-        dude.ScheduleActions(scheduler, world, imageStore);
-        return true;
+
+        if(getHealth() < 1){
+            Point bloodSpot = getPosition();
+            world.removeEntity(scheduler, this);
+
+            Blood blood = new Blood(Blood.BLOOD_KEY, bloodSpot, imageStore.getImageList(Blood.BLOOD_KEY), 0.1);
+            world.tryAddEntity(blood);
+            blood.ScheduleActions(scheduler, world, imageStore);
+            return true;
+        }
+        else{
+            DudeNotFull dude = new DudeNotFull(getId(), getPosition(), getImages() , getAnimationPeriod(),
+                    getActionPeriod(), getResourceLimit(), 1);
+            world.removeEntity(scheduler, this);
+            world.addEntity(dude);
+            dude.ScheduleActions(scheduler, world, imageStore);
+            return true;
+        }
     }
 }

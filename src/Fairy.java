@@ -55,7 +55,7 @@ public class Fairy extends Movable {
 
                 if(target.get() instanceof Blood){
                     DudeNotFull entity = new DudeNotFull(Dude.DUDE_KEY, targetPoint, imageStore.getImageList(Dude.DUDE_KEY), 0.180,
-                            0.787, 4);
+                            0.787, 4, 1);
                     world.tryAddEntity(entity);
                     entity.ScheduleActions(scheduler, world, imageStore);
                 }

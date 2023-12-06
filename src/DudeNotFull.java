@@ -1,26 +1,22 @@
 import processing.core.PImage;
 
-import javax.xml.stream.events.EndElement;
 import java.util.List;
 import java.util.Optional;
 
-public class DudeNotFull extends Dude{
+public class DudeNotFull extends Dude {
     private int resourceCount;
 
-    public DudeNotFull(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod, int resourceLimit){
-        super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
+    public DudeNotFull(String id, Point position, List<PImage> images, double animationPeriod, double actionPeriod, int resourceLimit, int health) {
+        super(id, position, images, animationPeriod, actionPeriod, resourceLimit, health);
         this.resourceCount = 0;
     }
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-
-        //all three possible targets for dude
         Optional<Entity> targetTree = world.findNearest(getPosition(), Tree.class);
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
         Optional<Entity> target = Optional.empty();
 
-        // Check for Tree and Sapling if Spider is not a valid target
         if (targetTree.isPresent() && targetSapling.isPresent()) {
             int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
             int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
@@ -31,15 +27,25 @@ public class DudeNotFull extends Dude{
             target = targetSapling;
         }
 
-        // Execute movement or transformation if a target is present
-        if (target.isEmpty() || !(moveTo(world, target.get(), scheduler)) || !(transform(world, scheduler, imageStore))) {
-            scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
+        boolean moved = false;
+        if (target.isPresent()) {
+            moved = moveTo(world, target.get(), scheduler);
         }
+
+        if (this.getHealth() < 1) {
+            transform(world, scheduler, imageStore);
+            return;
+        }
+
+        if (moved) {
+            transform(world, scheduler, imageStore);
+        }
+
+        scheduler.scheduleEvent(this, new ActionActivity(this, world, imageStore), getActionPeriod());
     }
 
     @Override
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
-
         if (getPosition().adjacent(target.getPosition())) {
             if (target instanceof Tree) {
                 this.resourceCount += 1; // Increase resource count for Tree
@@ -61,17 +67,30 @@ public class DudeNotFull extends Dude{
 
     @Override
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        if (this.resourceCount >= getResourceLimit()) {
-
-            DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getAnimationPeriod(),
-                    getActionPeriod(), getResourceLimit());
+        // Check health first
+        if (getHealth() < 1) {
+            Point bloodSpot = getPosition();
             world.removeEntity(scheduler, this);
             scheduler.unscheduleAllEvents(this);
 
-            world.addEntity(dude);
+            Blood blood = new Blood(Blood.BLOOD_KEY, bloodSpot, imageStore.getImageList(Blood.BLOOD_KEY), 0.1);
+            world.tryAddEntity(blood);
+            blood.ScheduleActions(scheduler, world, imageStore);
+            return true;
+        }
+
+        // Then check for resource limit
+        if (this.resourceCount >= getResourceLimit()) {
+            DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getAnimationPeriod(),
+                    getActionPeriod(), getResourceLimit(), getHealth());
+            world.removeEntity(scheduler, this);
+            scheduler.unscheduleAllEvents(this);
+
+            world.tryAddEntity(dude);
             dude.ScheduleActions(scheduler, world, imageStore);
             return true;
         }
+
         return false;
     }
 }

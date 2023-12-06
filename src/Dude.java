@@ -10,16 +10,25 @@ public abstract class Dude extends Movable implements Transform{
     private static final PathingStrategy DUDE_SINGLE_STEP = new SingleStepPathingStrategy();
     private static final PathingStrategy DUDE_A_STAR = new AStarPathingStrategy();
     private final int resourceLimit;
+    private int health;
 
      //private static final PathingStrategy DUDE_PATHING = new AStarPathingStrategy();
     private static final PathingStrategy DUDE_PATHING = new SingleStepPathingStrategy();
-    public Dude(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod,int resourceLimit){
+    public Dude(String id, Point position, List<PImage> images, double animationPeriod , double actionPeriod,int resourceLimit, int health){
         super(id, position, images, animationPeriod, actionPeriod, DUDE_A_STAR);
         this.resourceLimit = resourceLimit;
+        this.health = health;
     }
 
     public int getResourceLimit() {
         return resourceLimit;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }

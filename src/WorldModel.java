@@ -210,7 +210,7 @@ public final class WorldModel {
                 }
                 case Dude.DUDE_KEY -> {
                     DudeNotFull entity = new DudeNotFull(id, pt, imageStore.getImageList(Dude.DUDE_KEY), Double.parseDouble(properties[Dude.DUDE_ANIMATION_PERIOD]),
-                            Double.parseDouble(properties[Dude.DUDE_ACTION_PERIOD]), Integer.parseInt(properties[Dude.DUDE_LIMIT]));
+                            Double.parseDouble(properties[Dude.DUDE_ACTION_PERIOD]), Integer.parseInt(properties[Dude.DUDE_LIMIT]), 1);
                     world.tryAddEntity(entity);
                 }
                 case Fairy.FAIRY_KEY -> {

@@ -153,7 +153,7 @@ public final class VirtualWorld extends PApplet {
             Point[] spiderPoints = {new Point(13, 0), new Point(0, 15), new Point(16, 14), new Point(3, 25), new Point(30, 7)};
             for (Point index : spiderPoints) {
                 Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.18);
+                        0.17);
                 world.tryAddEntity(spider);
                 spider.ScheduleActions(scheduler, world, imageStore);
             }

@@ -36,14 +36,8 @@ public class Spider extends Movable {
 
         if (dudeTarget.isPresent()) {
             if (moveTo(world, dudeTarget.get(), scheduler)) {
-                if (dudeTarget.get() instanceof Dude temp) {
-
-                    Point bloodSpot = temp.getPosition();
-                    world.removeEntity(scheduler, temp);
-
-                    Blood blood = new Blood(Blood.BLOOD_KEY, bloodSpot, imageStore.getImageList(Blood.BLOOD_KEY), 0.1);
-                    world.addEntity(blood);
-                    blood.ScheduleActions(scheduler, world, imageStore);
+                if (dudeTarget.get() instanceof Dude dude) {
+                    dude.setHealth(dude.getHealth() - 1);
                 }
             }
         }
