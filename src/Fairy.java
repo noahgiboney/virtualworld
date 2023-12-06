@@ -15,17 +15,6 @@ public class Fairy extends Movable {
         super(id, position, images, animationPeriod, actionPeriod, FAIRY_A_STAR);
     }
 
-//    // Check for Tree and Sapling if Spider is not a valid target
-//        if (targetTree.isPresent() && targetSapling.isPresent()) {
-//        int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
-//        int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
-//        target = (distanceToTree <= distanceToSapling) ? targetTree : targetSapling;
-//    } else if (targetTree.isPresent()) {
-//        target = targetTree;
-//    } else if (targetSapling.isPresent()) {
-//        target = targetSapling;
-//    }
-
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> stumpTarget = world.findNearest(getPosition(), Stump.class);
@@ -87,7 +76,6 @@ public class Fairy extends Movable {
 
             if (!getPosition().equals(nextPos)) {
                 world.moveEntity(scheduler, this, nextPos);
-            } else {
             }
             return false;
         }

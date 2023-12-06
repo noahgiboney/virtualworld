@@ -32,10 +32,14 @@ public class Volcano extends AnimationEntity {
                 world.tryAddEntity(entity);
 
             }
-        }, 4000);
+        }, 2000);
     }
 
     public void setErupted(boolean erupted) {
         this.erupted = erupted;
+    }
+
+    public boolean isErupted() {
+        return erupted;
     }
 }

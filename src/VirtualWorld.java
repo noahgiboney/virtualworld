@@ -123,8 +123,8 @@ public final class VirtualWorld extends PApplet {
         //gather all volcanoes in the world
         Optional<Entity> nearestVolcano = world.findNearest(pressed, Volcano.class);
 
-        if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 7) {
-            if (nearestVolcano.get() instanceof Volcano volcano) {
+        if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 10) {
+            if (nearestVolcano.get() instanceof Volcano volcano && !volcano.isErupted()) {
                 volcano.setErupted(true);
                 volcano.ScheduleActions(scheduler, world, imageStore);
 
@@ -135,35 +135,37 @@ public final class VirtualWorld extends PApplet {
                         .toList();
 
 
-                if (filteredList.size() >= 2) {
-                    Entity closestEntity1 = filteredList.get(0);
-                    Entity closestEntity2 = filteredList.get(1);
-
-                    placeLava(closestEntity1, volcano, world, scheduler, imageStore);
-                    placeLava(closestEntity2, volcano, world, scheduler, imageStore);
+                if (filteredList.size() >= 4) {
+                    Entity lava1 = filteredList.get(0);
+                    Entity lava2 = filteredList.get(1);
+                    Entity lava3 = filteredList.get(2);
+                    Entity lava4 = filteredList.get(3);
+                    placeLava(lava1, world, scheduler, imageStore);
+                    placeLava(lava2, world, scheduler, imageStore);
+                    placeLava(lava3, world, scheduler, imageStore);
+                    placeLava(lava4, world, scheduler, imageStore);
                 } else if (!filteredList.isEmpty()) {
-                    // If there's only one entity
                     Entity closestEntity = filteredList.get(0);
-                    placeLava(closestEntity, volcano, world, scheduler, imageStore);
+                    placeLava(closestEntity, world, scheduler, imageStore);
+                }
+            }
+            Point[] spiderPoints = {new Point(13, 1), new Point(0, 15), new Point(16, 14), new Point(3, 25), new Point(29, 7), new Point(22, 20)};
+            for (Point index : spiderPoints) {
+                if (!world.isOccupied(index)) {
+                    Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
+                            0.17);
+                    world.tryAddEntity(spider);
+                    spider.ScheduleActions(scheduler, world, imageStore);
                 }
             }
         }
-
-
-            Point[] spiderPoints = {new Point(13, 0), new Point(0, 15), new Point(16, 14), new Point(3, 25), new Point(30, 7)};
-            for (Point index : spiderPoints) {
-                Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                        0.17);
-                world.tryAddEntity(spider);
-                spider.ScheduleActions(scheduler, world, imageStore);
-            }
     }
 
-    private void placeLava(Entity entity, Volcano volcano, WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
+    private void placeLava(Entity entity, WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         Point currentSpot = entity.getPosition();
         world.removeEntityAt(currentSpot);
         Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, currentSpot, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f, 0.8f));
-        world.addEntity(lava);
+        world.tryAddEntity(lava);
         lava.ScheduleActions(scheduler, world, imageStore);
     }
 
