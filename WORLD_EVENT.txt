@@ -1,0 +1,14 @@
+1) The event is triggered by clicking on one of the four volcanoes that are scatted across the map. The event is only triggered by clicking within
+a 10 tiles radius of the volcano. The event will not be triggered if you click elsewhere.
+
+2) When the event is triggered, the specific volcano that was clicked erupts and has an animation that lasts for 2 seconds, this also causes the river
+to flood with lava near the volcano that takes the place of the water. Also, when the volcano erupts, it wakes up the spider nests across the world
+and spawns in six spiders. The clicking of volcano's can be called continuously to flood the river with lava and wake up spiders.
+
+3) These spiders will seek out dudes to kill them and transform them the dudes int a static blood entity. After this even the fairy's behavior is also
+affected as now the fairy must revive the dudes and kill spiders to protect the dude. The fairy must choose between the shortest entity if the blood and
+spider are both present. This way the fairy is most effective. If there is no spiders the fairy will revive trees as normal. Lastly, the dude will remain
+chopping trees while the spider eruptions occur, although they will be getting killed in the process.
+
+4) The new entities is a spider that spawns with volcano eruptions, it should seek out dudes and kills them, it is also being hunted by the fairy's as they
+have to protect the dude.
