@@ -47,14 +47,14 @@ public class DudeFull extends Dude{
             Point bloodSpot = getPosition();
             world.removeEntity(scheduler, this);
 
-            Blood blood = new Blood(Blood.BLOOD_KEY, bloodSpot, imageStore.getImageList(Blood.BLOOD_KEY), 0.1);
+            Blood blood = new Blood(Blood.BLOOD_KEY, bloodSpot, imageStore.getImageList(Blood.BLOOD_KEY), Blood.BLOOD_ANIMATION_PERIOD);
             world.tryAddEntity(blood);
             blood.ScheduleActions(scheduler, world, imageStore);
         }
         //otherwise the dude has reached the house
         else{
             DudeNotFull dude = new DudeNotFull(getId(), getPosition(), getImages() , getAnimationPeriod(),
-                    getActionPeriod(), getResourceLimit(), 1);
+                    getActionPeriod(), getResourceLimit(), getHealth());
             world.removeEntity(scheduler, this);
             world.addEntity(dude);
             dude.ScheduleActions(scheduler, world, imageStore);
