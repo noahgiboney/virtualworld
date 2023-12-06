@@ -154,8 +154,8 @@ public final class VirtualWorld extends PApplet {
             Point[] spiderPoints = {new Point(13, 1), new Point(0, 15), new Point(16, 14), new Point(3, 25), new Point(29, 7), new Point(22, 20)};
             for (Point index : spiderPoints) {
                 if (!world.isOccupied(index)) {
-                    Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), 0.4,
-                            0.17);
+                    Spider spider = new Spider(Spider.SPIDER_KEY, index, imageStore.getImageList(Spider.SPIDER_KEY), Spider.SPIDER_ANIMATION_PERIOD,
+                            Spider.SPIDER_ACTION_PERIOD);
                     world.tryAddEntity(spider);
                     spider.ScheduleActions(scheduler, world, imageStore);
                 }
@@ -170,7 +170,7 @@ public final class VirtualWorld extends PApplet {
         //remove lava
         world.removeEntityAt(currentSpot);
 
-        //add lava
+        //add lava, gives it random animation period for visual effect
         Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, currentSpot, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f, 0.8f));
         world.tryAddEntity(lava);
         lava.ScheduleActions(scheduler, world, imageStore);

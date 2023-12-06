@@ -6,8 +6,8 @@ import java.util.Optional;
 public class Spider extends Movable {
 
     public static final String SPIDER_KEY = "spider";
-    public static final int SPIDER_ANIMATION_PERIOD = 0;
-    public static final int SPIDER_ACTION_PERIOD = 1;
+    public static final double SPIDER_ANIMATION_PERIOD = 0.4;
+    public static final double SPIDER_ACTION_PERIOD = 0.17;
     private static final PathingStrategy SPIDER_SINGLE_STEP = new SingleStepPathingStrategy();
     private static final PathingStrategy SPIDER_A_STAR = new AStarPathingStrategy();
 
