@@ -37,6 +37,7 @@ public class Spider extends Movable {
         if (dudeTarget.isPresent()) {
             if (moveTo(world, dudeTarget.get(), scheduler)) {
                 if (dudeTarget.get() instanceof Dude dude) {
+                    //decrease the health of the dude to zero (kill him)
                     dude.setHealth(dude.getHealth() - 1);
                 }
             }

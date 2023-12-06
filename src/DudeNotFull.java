@@ -17,6 +17,7 @@ public class DudeNotFull extends Dude {
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
         Optional<Entity> target = Optional.empty();
 
+        //if there a tree and a sapling target the closer one, other wide choose whatever target is there
         if (targetTree.isPresent() && targetSapling.isPresent()) {
             int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
             int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
@@ -32,6 +33,7 @@ public class DudeNotFull extends Dude {
             moved = moveTo(world, target.get(), scheduler);
         }
 
+        //check if the health has gone to zero (spider reached it)
         if (this.getHealth() < 1) {
             transform(world, scheduler, imageStore);
             return;
@@ -67,7 +69,8 @@ public class DudeNotFull extends Dude {
 
     @Override
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        // Check health first
+
+        //if the health depleted then transform dude to blood
         if (getHealth() < 1) {
             Point bloodSpot = getPosition();
             world.removeEntity(scheduler, this);
@@ -79,7 +82,7 @@ public class DudeNotFull extends Dude {
             return true;
         }
 
-        // Then check for resource limit
+        // if the dude has not died, then transform to full dude
         if (this.resourceCount >= getResourceLimit()) {
             DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getAnimationPeriod(),
                     getActionPeriod(), getResourceLimit(), getHealth());

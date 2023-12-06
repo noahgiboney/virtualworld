@@ -12,6 +12,7 @@ public class DudeFull extends Dude{
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> fullTarget = world.findNearest(getPosition(), House.class);
 
+        //transform the dude if health is depleted
         if(getHealth() < 1){
             this.transform(world,scheduler,imageStore);
         }
@@ -41,6 +42,7 @@ public class DudeFull extends Dude{
     @Override
     public boolean transform(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
 
+        //first check if the health is depleted
         if(getHealth() < 1){
             Point bloodSpot = getPosition();
             world.removeEntity(scheduler, this);
@@ -48,15 +50,15 @@ public class DudeFull extends Dude{
             Blood blood = new Blood(Blood.BLOOD_KEY, bloodSpot, imageStore.getImageList(Blood.BLOOD_KEY), 0.1);
             world.tryAddEntity(blood);
             blood.ScheduleActions(scheduler, world, imageStore);
-            return true;
         }
+        //otherwise the dude has reached the house
         else{
             DudeNotFull dude = new DudeNotFull(getId(), getPosition(), getImages() , getAnimationPeriod(),
                     getActionPeriod(), getResourceLimit(), 1);
             world.removeEntity(scheduler, this);
             world.addEntity(dude);
             dude.ScheduleActions(scheduler, world, imageStore);
-            return true;
         }
+        return true;
     }
 }

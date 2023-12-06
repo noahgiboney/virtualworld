@@ -33,9 +33,6 @@ public final class VirtualWorld extends PApplet {
     private EventScheduler scheduler;
     private String loadFile = "world.sav";
     private long startTimeMillis = 0;
-    private int clickCount = 0;
-
-    private final ScheduledExecutorService repeater = Executors.newScheduledThreadPool(1);
 
     /*
       Called with color for which alpha should be set and alpha value.
@@ -115,26 +112,29 @@ public final class VirtualWorld extends PApplet {
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
     public void mousePressed() {
-        clickCount++;
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
 
-        //gather all volcanoes in the world
+        //find the volcano that was clicked
         Optional<Entity> nearestVolcano = world.findNearest(pressed, Volcano.class);
-
         if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 10) {
             if (nearestVolcano.get() instanceof Volcano volcano && !volcano.isErupted()) {
-                volcano.setErupted(true);
-                volcano.ScheduleActions(scheduler, world, imageStore);
+
+                volcano.setErupted(true); // erupt the volcano
+                volcano.ScheduleActions(scheduler, world, imageStore); //eruption animation
+
+                //build a list of obstacles (water & lava)
 
                 List<Entity> obstacleList = world.findAllEntities(Obstacle.class, scheduler);
+
+                //filter the list to only have water points and sort then based closest to the volcano
                 List<Entity> filteredList = obstacleList.stream()
                         .filter(obstacle -> !Objects.equals(obstacle.getId(), Obstacle.LAVA_KEY))
                         .sorted(Comparator.comparingInt(o -> o.getPosition().calcDistanceFromStart(volcano.getPosition())))
                         .toList();
 
-
+                //replace the nearest 4 water tiles with lava
                 if (filteredList.size() >= 4) {
                     Entity lava1 = filteredList.get(0);
                     Entity lava2 = filteredList.get(1);
@@ -149,6 +149,8 @@ public final class VirtualWorld extends PApplet {
                     placeLava(closestEntity, world, scheduler, imageStore);
                 }
             }
+
+            //spawn 6 spiders in the nests across the map when the volcano erupts
             Point[] spiderPoints = {new Point(13, 1), new Point(0, 15), new Point(16, 14), new Point(3, 25), new Point(29, 7), new Point(22, 20)};
             for (Point index : spiderPoints) {
                 if (!world.isOccupied(index)) {
@@ -161,9 +163,14 @@ public final class VirtualWorld extends PApplet {
         }
     }
 
+    //helper method for placing lava
     private void placeLava(Entity entity, WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         Point currentSpot = entity.getPosition();
+
+        //remove lava
         world.removeEntityAt(currentSpot);
+
+        //add lava
         Obstacle lava = new Obstacle(Obstacle.LAVA_KEY, currentSpot, imageStore.getImageList(Obstacle.LAVA_KEY), random(0.3f, 0.8f));
         world.tryAddEntity(lava);
         lava.ScheduleActions(scheduler, world, imageStore);
