@@ -1,6 +1,7 @@
 import processing.core.PImage;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Represents the 2D World in which this simulation is running.
@@ -20,7 +21,10 @@ public final class WorldModel {
     private Entity[][] occupancy;
     private Set<Entity> entities;
 
-    public WorldModel() {}
+    public WorldModel() {
+        //this is added to prevent conccurrent modification exception
+        this.entities = ConcurrentHashMap.newKeySet();
+    }
     public Set<Entity> entities(){return this.entities;}
     public int numRows(){return this.numRows;}
     public int numCols(){return this.numCols;}
