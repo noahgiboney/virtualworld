@@ -14,7 +14,6 @@ public final class WorldModel {
     private final int PROPERTY_COL = 2;
     private final int PROPERTY_ROW = 3;
     private final int ENTITY_NUM_PROPERTIES = 4;
-
     private int numRows;
     private int numCols;
     private Background[][] background;
@@ -22,7 +21,7 @@ public final class WorldModel {
     private Set<Entity> entities;
 
     public WorldModel() {
-        //this is added to prevent conccurrent modification exception
+        //this is added to prevent con-current modification exception
         this.entities = ConcurrentHashMap.newKeySet();
     }
     public Set<Entity> entities(){return this.entities;}
