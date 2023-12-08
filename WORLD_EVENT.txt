@@ -1,5 +1,5 @@
 1) The event is triggered by clicking on one of the four volcanoes that are scattered across the map. The event is only triggered by clicking within
-a 10 tiles radius of the volcano. The event will not be triggered if you click elsewhere on the map.
+a 5 tiles radius of the volcano. The event will not be triggered if you click elsewhere on the map.
 
 2) When the event is triggered, the specific volcano that was clicked erupts and has an animation that lasts for 2 seconds, this also causes the river
 to flood with lava near the volcano that takes the place of the water. Also, when the volcano erupts, it wakes up the spider nests across the world
