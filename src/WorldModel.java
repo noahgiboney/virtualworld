@@ -2,6 +2,7 @@ import processing.core.PImage;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Represents the 2D World in which this simulation is running.
@@ -18,13 +19,12 @@ public final class WorldModel {
     private int numCols;
     private Background[][] background;
     private Entity[][] occupancy;
-    private Set<Entity> entities;
+    private CopyOnWriteArrayList<Entity> entities;
 
     public WorldModel() {
         //this is added to prevent con-current modification exception
-        this.entities = ConcurrentHashMap.newKeySet();
     }
-    public Set<Entity> entities(){return this.entities;}
+    public CopyOnWriteArrayList<Entity> entities(){return this.entities;}
     public int numRows(){return this.numRows;}
     public int numCols(){return this.numCols;}
 
@@ -85,7 +85,7 @@ public final class WorldModel {
         }
         if(this.occupancy == null){
             this.occupancy = new Entity[this.numRows][this.numCols];
-            this.entities = new HashSet<>();
+            this.entities = new CopyOnWriteArrayList<>();
         }
     }
 
@@ -136,7 +136,6 @@ public final class WorldModel {
     public List<Entity> findAllEntities(Class<?> entityType, EventScheduler scheduler) {
         List<Entity> entities = new ArrayList<>();
 
-        // Assuming you have a way to iterate over all grid cells
         for (int row = 0; row <= 39; row++) {
             for (int col = 0; col <= 29; col++) {
                 Point pos = new Point(row, col);
@@ -177,7 +176,7 @@ public final class WorldModel {
                     case "Backgrounds:" -> this.background = new Background[this.numRows][this.numCols];
                     case "Entities:" -> {
                         this.occupancy = new Entity[this.numRows][this.numCols];
-                        this.entities = new HashSet<>();
+                        this.entities = new CopyOnWriteArrayList<>();
                     }
                 }
             }else{

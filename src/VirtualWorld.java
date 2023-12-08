@@ -118,7 +118,7 @@ public final class VirtualWorld extends PApplet {
 
         //find the volcano that was clicked, erupt if it was within 10 tiles
         Optional<Entity> nearestVolcano = world.findNearest(pressed, Volcano.class);
-        if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 10) {
+        if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 5) {
             if (nearestVolcano.get() instanceof Volcano volcano && !volcano.isErupted()) {
 
                 volcano.setErupted(true); // erupt the volcano
