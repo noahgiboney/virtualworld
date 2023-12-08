@@ -109,19 +109,16 @@ public final class VirtualWorld extends PApplet {
         scheduler.updateOnTime(frameTime);
     }
 
-    // Just for debugging and for P5
-    // Be sure to refactor this method as appropriate
     public void mousePressed() {
         Point pressed = mouseToPoint();
-        System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
+        System.out.println(pressed.getX() + ", " + pressed.getY());
 
-
-        //find the volcano that was clicked, erupt if it was within 10 tiles
+        //find the volcano that was clicked, erupt if it was within 5 tiles
         Optional<Entity> nearestVolcano = world.findNearest(pressed, Volcano.class);
         if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 5) {
             if (nearestVolcano.get() instanceof Volcano volcano && !volcano.isErupted()) {
 
-                volcano.setErupted(true); // erupt the volcano
+                volcano.setErupted(true); //erupt the volcano
                 volcano.ScheduleActions(scheduler, world, imageStore); //eruption animation
 
                 //build a list of obstacles (water & lava)

@@ -17,7 +17,7 @@ public class DudeNotFull extends Dude {
         Optional<Entity> targetSapling = world.findNearest(getPosition(), Sapling.class);
         Optional<Entity> target = Optional.empty();
 
-        //if there a tree and a sapling target the closer one, other wide choose whatever target is there
+        //if there is a tree and a sapling target the closer one, other wide choose whatever target is there
         if (targetTree.isPresent() && targetSapling.isPresent()) {
             int distanceToTree = getPosition().distanceSquared(targetTree.get().getPosition());
             int distanceToSapling = getPosition().distanceSquared(targetSapling.get().getPosition());
@@ -50,10 +50,10 @@ public class DudeNotFull extends Dude {
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
         if (getPosition().adjacent(target.getPosition())) {
             if (target instanceof Tree) {
-                this.resourceCount += 1; // Increase resource count for Tree
+                this.resourceCount += 1; //increase resource count for Tree
                 ((Tree) target).setHealth(((Tree) target).getHealth() - 1);
             } else if (target instanceof Sapling) {
-                this.resourceCount += 1; // Increase resource count for Sapling
+                this.resourceCount += 1; //increase resource count for Sapling
                 ((Sapling) target).setHealth(((Sapling) target).getHealth() - 1);
             }
             return true;
@@ -82,7 +82,7 @@ public class DudeNotFull extends Dude {
             return true;
         }
 
-        // if the dude has not died, then transform to full dude
+        //if the dude has not died, then transform to full dude
         if (this.resourceCount >= getResourceLimit()) {
             DudeFull dude = new DudeFull(getId(), getPosition(), getImages(), getAnimationPeriod(),
                     getActionPeriod(), getResourceLimit(), getHealth());

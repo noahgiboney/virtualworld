@@ -22,7 +22,6 @@ public final class WorldModel {
     private CopyOnWriteArrayList<Entity> entities;
 
     public WorldModel() {
-        //this is added to prevent con-current modification exception
     }
     public CopyOnWriteArrayList<Entity> entities(){return this.entities;}
     public int numRows(){return this.numRows;}
