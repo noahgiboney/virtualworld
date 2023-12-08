@@ -116,7 +116,7 @@ public final class VirtualWorld extends PApplet {
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
 
-        //find the volcano that was clicked
+        //find the volcano that was clicked, erupt if it was within 10 tiles
         Optional<Entity> nearestVolcano = world.findNearest(pressed, Volcano.class);
         if (nearestVolcano.isPresent() && pressed.distanceSquared(nearestVolcano.get().getPosition()) <= 10) {
             if (nearestVolcano.get() instanceof Volcano volcano && !volcano.isErupted()) {
@@ -125,7 +125,6 @@ public final class VirtualWorld extends PApplet {
                 volcano.ScheduleActions(scheduler, world, imageStore); //eruption animation
 
                 //build a list of obstacles (water & lava)
-
                 List<Entity> obstacleList = world.findAllEntities(Obstacle.class, scheduler);
 
                 //filter the list to only have water points and sort then based closest to the volcano
