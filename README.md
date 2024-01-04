@@ -1,15 +1,12 @@
 # Virtual World
-Project for CS203 
+Quater long Project for CS203 at Cal Poly SLO 
 
-This project was split into three parts throughout the quarter.
+Learn more and demo on my website [here](https://noahgiboney.vercel.app/projects/virtualworld)
 
-## Part One
+Applied a-star pathing algorithm, large code base refactoring, and updated with innovative features
 
-The codebase for the virtual world given was sloppy and had purposely low cohesion and high coupling. Using OOP principles
-I refactored the code base to achieve high class cohesion and low coupling. This was done through the means of abstract classes
-and interfaces. Representing the Entity's as parent abstract classes and their functionality based on interfaces greatly
-reduced repeated code.
-
-## Part Two
-
-## Part Two
+##Features
+-  World-changing event that is triggered by the user clicking on a volcano, which causes lava to flood the river and wake up spiders from the various nests across the world.
+-  The spiders target the human and kill them.
+-  This will cause the fairy to either choose to target the spider and kill it, or target the dude and revive them. The fairy will choose based on which entity is closest.
+-  This event can be triggered as many times as the user wants to keep flooding the river and spawning spiders.
