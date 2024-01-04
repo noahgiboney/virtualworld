@@ -5,7 +5,7 @@ Learn more and demo on my website [here](https://noahgiboney.vercel.app/projects
 
 Applied a-star pathing algorithm, large code base refactoring, and updated with innovative features
 
-##Features
+## Features
 -  World-changing event that is triggered by the user clicking on a volcano, which causes lava to flood the river and wake up spiders from the various nests across the world.
 -  The spiders target the human and kill them.
 -  This will cause the fairy to either choose to target the spider and kill it, or target the dude and revive them. The fairy will choose based on which entity is closest.
