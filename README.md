@@ -1,7 +1,7 @@
 # Virtual World
 Quater long Project for CS203 at Cal Poly SLO 
 
-Learn more and demo on my website [here](https://noahgiboney.vercel.app/projects/virtualworld)
+[Demo](https://noahgiboney.vercel.app/projects/virtualworld) and more information
 
 Applied a-star pathing algorithm, large code base refactoring, and updated with innovative features
 
